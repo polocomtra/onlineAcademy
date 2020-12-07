@@ -1,13 +1,15 @@
-const express=require('express')
-require('dotenv').config();
-const PORT=process.env.PORT || 8000
+var express = require('express');
+var app = express();
+app.set('view engine', 'ejs');
+// index page 
+app.get('/', function(req, res) {
+    res.render('test');
+});
 
-const app=express();
+// about page 
+app.get('/about', function(req, res) {
+    res.render('pages/about');
+});
 
-app.get('/',(req,res)=>{
-    res.send('Hello')
-})
-
-app.listen(PORT,()=>{
-    console.log(`Listening on port ${PORT}`)
-})
+console.log('localhost:3000');
+app.listen(3000);
