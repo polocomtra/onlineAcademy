@@ -1,6 +1,8 @@
 //includes
 const express = require('express');
+const ejs = require('ejs');
 const app = express();
+var expressLayouts = require('express-ejs-layouts');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
@@ -25,6 +27,8 @@ mongoose.connection.on('error', (error) => {
     console.log(`Database connection error: ${error}`)
 })
 
+//use ejs
+app.use(expressLayouts);
 //set view engine - ejs
 app.set('view engine', 'ejs');
 app.set('layout signup', false);
@@ -40,7 +44,6 @@ app.use(expressValidator());
 
 //routes
 app.use('/', userRouter);
-
 
 
 
