@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
+const expressLayouts = require('express-ejs-layouts');
 
 //routes
 const userRouter = require('./routes/auth')
@@ -26,10 +27,14 @@ mongoose.connection.on('error', (error) => {
 
 //set view engine - ejs
 app.set('view engine', 'ejs');
+app.set('layout signup', false);
+app.set('layout signin', false);
 
 //middlewares
 app.use(morgan('dev'));
+app.use(expressLayouts);
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
 app.use(expressValidator());
 
