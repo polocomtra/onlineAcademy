@@ -12,7 +12,9 @@ const expressLayouts = require('express-ejs-layouts');
 
 //routes
 const userRouter = require('./routes/auth')
-const categoryRouter=require('./routes/category')
+const categoryRouter = require('./routes/category')
+const coreRouter = require('./routes/core.js')
+const courseRouter = require('./routes/course')
 const PORT = process.env.PORT || 5000;
 
 //database connect
@@ -42,8 +44,11 @@ app.use(cookieParser());
 app.use(expressValidator());
 
 //routes
-app.use('/', userRouter);
-app.use('/category',categoryRouter);
+app.use('/user', userRouter);
+app.use('/', coreRouter);
+app.use('/course', courseRouter);
+app.use('/category', categoryRouter);
+
 
 
 
