@@ -2,14 +2,13 @@
 const express = require('express');
 const ejs = require('ejs');
 const app = express();
-var expressLayouts = require('express-ejs-layouts');
+const expressLayouts = require('express-ejs-layouts');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
-const expressLayouts = require('express-ejs-layouts');
 
 //routes
 const userRouter = require('./routes/auth')
@@ -44,7 +43,6 @@ app.use(expressValidator());
 
 //routes
 app.use('/', userRouter);
-
 
 
 //Start app

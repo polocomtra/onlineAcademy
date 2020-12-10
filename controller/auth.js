@@ -2,7 +2,6 @@ const User = require('../model/User')
 const { errorHandler } = require('../helpers/errorHandler')
 const jwt = require('jsonwebtoken')
 const expressJwt = require('express-jwt')
-
 exports.signup = (req, res) => {
     const user = new User(req.body);
     user.save((err, user) => {
@@ -23,6 +22,8 @@ exports.signup = (req, res) => {
         })
     })
 }
+
+
 
 exports.signin = (req, res) => {
     const { email, password } = req.body;
