@@ -3,10 +3,9 @@ const router = express.Router();
 
 const { signup, signin, signout, getSignupForm, getSigninForm } = require('../controller/auth')
 const { userSignupValidator } = require('../validator/index')
+const {renderLayout}=require('../controller/core')
 
-router.get('/', (req, res) => {
-    res.render('test')
-})
+router.get('/', renderLayout)
 router.get('/signup', getSignupForm);
 router.post('/signup', userSignupValidator, signup);
 router.get('/signin', getSigninForm)

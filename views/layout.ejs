@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
     <meta charset="utf-8">
     <title>OnlineAcademy</title>
@@ -20,16 +21,15 @@
         <ul class="container-fluid navbar-nav" style="flex-grow: 1; padding-left: 200px;">
             <!-- Dropdown -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="caterories-dropdown" data-toggle="dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     Categories
                 </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Category #1</a>
-                    <a class="dropdown-item" href="#">Category #2</a>
-                    <a class="dropdown-item" href="#">Category #3</a>
-                    <a class="dropdown-item" href="#">Category #4</a>
-                    <a class="dropdown-item" href="#">Category #5</a>
-                    <a class="dropdown-item" href="#">Category #6</a>
+                <div class="dropdown-menu" id="categories_dropdown">
+                    <% categories.forEach(function(category) { %>
+                    <a class="dropdown-item" href="category/<%=category.name%>">
+                        <%=category.name%>
+                    </a>
+                    <% }) %>
                 </div>
             </li>
             <li>
@@ -65,36 +65,14 @@
                         <h4>Categories</h4>
                     </div>
                     <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <h5>Category #1
+                        <% categories.forEach(function(category) { %>
+
+                        <a class="list-group-item list-group-item-action" href="category/<%=category.name%>">
+                            <h5><%=category.name%>
                                 <span class="badge badge-primary badge-pill bg-dark">num</span>
                             </h5>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <h5>Category #2
-                                <span class="badge badge-primary badge-pill bg-dark">num</span>
-                            </h5>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <h5>Category #3
-                                <span class="badge badge-primary badge-pill bg-dark">num</span>
-                            </h5>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <h5>Category #4
-                                <span class="badge badge-primary badge-pill bg-dark">num</span>
-                            </h5>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <h5>Category #5
-                                <span class="badge badge-primary badge-pill bg-dark">num</span>
-                            </h5>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <h5>Category #6
-                                <span class="badge badge-primary badge-pill bg-dark">num</span>
-                            </h5>
-                        </a>
+                        <% }) %>
                     </div>
                 </div>
             </div>
@@ -106,4 +84,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+
 </html>
