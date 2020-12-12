@@ -10,6 +10,9 @@ const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
 const expressLayouts = require('express-ejs-layouts');
 
+//middlewares for layout
+const {layoutMiddleWare} =require('./controller/core')
+
 //routes
 const userRouter = require('./routes/auth')
 const categoryRouter = require('./routes/category')
@@ -33,6 +36,7 @@ mongoose.connection.on('error', (error) => {
 app.set('view engine', 'ejs');
 app.set('layout signup', false);
 app.set('layout signin', false);
+app.set('layout test', false);
 
 //middlewares
 app.use(morgan('dev'));
@@ -41,6 +45,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
 app.use(expressValidator());
+app.use(layoutMiddleWare);
+
+
 
 //routes
 app.use('/user', userRouter);

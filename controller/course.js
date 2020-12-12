@@ -57,8 +57,8 @@ exports.getAllCourses = (req, res) => {
             })
         }
         res.render('course/courses', {
-            categories: req.categories,
-            fields: req.fields,
+            categories: res.locals.categories,
+            fields: res.locals.fields,
             courses: courses
         })
     })
@@ -75,4 +75,20 @@ exports.getCoursePhoto = (req, res, next) => {
         res.send(req.course.photo.data)
     }
     next()
+}
+
+exports.getCoursesByCategory=(req,res)=>{
+    
+    const {fieldName,categoryName}=req.params;
+    console.log(`Field:${fieldName},category:${categoryName}`);
+    Course.find().populate('category').exec((err,courses)=>{
+        if(err){
+            return res.status(400).json({
+                error:err
+            })
+        }
+        res.render('course/coursesByCategory',{
+            courses:courses.filter(course=>course.category.alias==categoryName)
+        })
+    })
 }

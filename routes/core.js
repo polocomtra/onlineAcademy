@@ -5,7 +5,7 @@ const {  layoutMiddleWare } = require('../controller/core')
 const { getAllCourses } = require('../controller/course')
 
 
-router.get('/', layoutMiddleWare, getAllCourses);
+router.get('/', getAllCourses);
 
 
 module.exports = router;
