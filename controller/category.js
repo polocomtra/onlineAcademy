@@ -17,29 +17,3 @@ exports.createCategory = (req, res) => {
         })
     })
 }
-
-// exports.getFieldNameMdw=(req,res,next)=>{
-//     const fieldName=req.params.fieldName;
-//     Field.findOne({name:fieldName}).exec((err,field)=>{
-//         if(err){
-//             return res.status(400).json({
-//                 error:err
-//             })
-//         }
-//         req.field=field;
-//         next();
-//     })
-// }
-
-// exports.getCategoryNameMdw=(req,res,next)=>{
-//     const categoryName=req.params.categoryName;
-//     Category.findOne({name:categoryName}).exec((err,category)=>{
-//         if(err){
-//             return res.status(400).json({
-//                 error:err
-//             })
-//         }
-//         req.category=category;
-//         next();
-//     })
-// }

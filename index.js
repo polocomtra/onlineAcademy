@@ -11,7 +11,7 @@ const expressValidator = require('express-validator')
 const expressLayouts = require('express-ejs-layouts');
 
 //middlewares for layout
-const {layoutMiddleWare} =require('./middlewares/layout')
+const { layoutMiddleWare } = require('./middlewares/layout')
 
 //routes
 const userRouter = require('./routes/auth')
