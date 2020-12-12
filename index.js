@@ -11,7 +11,7 @@ const expressValidator = require('express-validator')
 const expressLayouts = require('express-ejs-layouts');
 
 //middlewares for layout
-const {layoutMiddleWare} =require('./controller/core')
+const {layoutMiddleWare} =require('./middlewares/layout')
 
 //routes
 const userRouter = require('./routes/auth')
@@ -36,7 +36,6 @@ mongoose.connection.on('error', (error) => {
 app.set('view engine', 'ejs');
 app.set('layout signup', false);
 app.set('layout signin', false);
-app.set('layout test', false);
 
 //middlewares
 app.use(morgan('dev'));

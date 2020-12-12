@@ -50,6 +50,7 @@ exports.courseById = (req, res, next) => {
 }
 
 exports.getAllCourses = (req, res) => {
+    console.log(res.locals.categories);
     Course.find().exec((err, courses) => {
         if (err) {
             return res.status(400).json({
@@ -78,7 +79,6 @@ exports.getCoursePhoto = (req, res, next) => {
 }
 
 exports.getCoursesByCategory=(req,res)=>{
-    
     const {fieldName,categoryName}=req.params;
     console.log(`Field:${fieldName},category:${categoryName}`);
     Course.find().populate('category').exec((err,courses)=>{
@@ -88,7 +88,7 @@ exports.getCoursesByCategory=(req,res)=>{
             })
         }
         res.render('course/coursesByCategory',{
-            courses:courses.filter(course=>course.category.alias==categoryName)
+            courses:courses.filter(course=>course.category.alias==categoryName),
         })
     })
 }
