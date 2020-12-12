@@ -7,6 +7,11 @@ const categorySchema = new mongoose.Schema({
         trim: true,
         required: true
     },
+    alias: {
+        type: String,
+        trim: true,
+        required: true
+    },
     field: {
         type: ObjectId,
         ref: "Field",

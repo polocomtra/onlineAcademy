@@ -82,13 +82,13 @@
                 <ul class="dropdown-menu">
                     <% fields.forEach(function(field) { %>
                         <li>
-                            <a class="dropdown-item dropdown-toggle" href="category/<%=field.name%>">
+                            <a class="dropdown-item dropdown-toggle" href="category/<%=field.alias%>">
                                 <%=field.name%>
                             </a>
                             <ul class="submenu dropdown-menu">
                                 <% categories.forEach(function(category) { %>
                                     <% if (category.field.equals(field._id)) { %>
-                                        <li><a class="dropdown-item" href="category/<%=field.name%>/<%=category.name%>"><%=category.name%></a></li>
+                                        <li><a class="dropdown-item" href="category/<%=field.alias%>/<%=category.alias%>"><%=category.name%></a></li>
                                     <% } %>
                                 <% }) %>
                             </ul>
@@ -133,7 +133,7 @@
                         <% categories.forEach(function(category) { %>
                             <% fields.forEach(function(field) { %>
                                 <% if (category.field.equals(field._id)) { %>
-                                    <a class="list-group-item  list-group-item-action" href="category/<%=field.name%>/<%=category.name%>">
+                                    <a class="list-group-item  list-group-item-action" href="category/<%=field.alias%>/<%=category.alias%>">
                                         <h5>
                                             <%=category.name%>
                                         </h5>
