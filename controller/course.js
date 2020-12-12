@@ -58,6 +58,7 @@ exports.getAllCourses = (req, res) => {
         }
         res.render('course/courses', {
             categories: req.categories,
+            fields: req.fields,
             courses: courses
         })
     })

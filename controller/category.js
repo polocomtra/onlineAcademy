@@ -1,4 +1,5 @@
 const Category = require('../model/Category');
+const Field = require('../model/Field');
 const { errorHandler } = require('../helpers/errorHandler');
 const User = require('../model/User');
 

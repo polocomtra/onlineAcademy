@@ -29,7 +29,6 @@ mongoose.connection.on('error', (error) => {
     console.log(`Database connection error: ${error}`)
 })
 
-
 //set view engine - ejs
 app.set('view engine', 'ejs');
 app.set('layout signup', false);
