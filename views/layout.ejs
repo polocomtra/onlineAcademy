@@ -88,7 +88,7 @@
                             <ul class="submenu dropdown-menu">
                                 <% categories.forEach(function(category) { %>
                                     <% if (category.field.equals(field._id)) { %>
-                                        <li><a class="dropdown-item" href="category/<%=field.alias%>/<%=category.alias%>"><%=category.name%></a></li>
+                                        <li><a class="dropdown-item" href="/category/<%=field.alias%>/<%=category.alias%>"><%=category.name%></a></li>
                                     <% } %>
                                 <% }) %>
                             </ul>
@@ -120,7 +120,7 @@
             </li>
         </ul>
     </nav>
-
+    <span class="udlite-text-sm ">Sales</span>
     <!--List Group-->
     <div class="container-fluid mt-3">
         <div class="row">
@@ -133,7 +133,7 @@
                         <% categories.forEach(function(category) { %>
                             <% fields.forEach(function(field) { %>
                                 <% if (category.field.equals(field._id)) { %>
-                                    <a class="list-group-item  list-group-item-action" href="category/<%=field.alias%>/<%=category.alias%>">
+                                    <a class="list-group-item  list-group-item-action " href="/category/<%=field.alias%>/<%=category.alias%>">
                                         <h5>
                                             <%=category.name%>
                                         </h5>
