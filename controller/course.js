@@ -37,7 +37,7 @@ exports.createCourse = (req, res) => {
 
 exports.courseById = (req, res, next) => {
     const id = req.params.courseId;
-    Course.findById(id).exec((err, course) => {
+    Course.findById(id).populate('category').populate('teacher').exec((err, course) => {
         if (err || !course) {
             return res.status(400).json({
                 error: "Product not found"
@@ -51,7 +51,7 @@ exports.courseById = (req, res, next) => {
 
 exports.getAllCourses = (req, res) => {
     console.log(res.locals.categories);
-    Course.find().exec((err, courses) => {
+    Course.find().populate('category').populate('teacher').exec((err, courses) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -65,9 +65,19 @@ exports.getAllCourses = (req, res) => {
     })
 }
 
-exports.getCourseById = (req, res) => {
+exports.getCourseById = async (req, res) => {
     req.course.photo = undefined;
-    res.json(req.course)
+    let { view } = req.course;
+    let update = { view: view + 1 };
+    await Course.findByIdAndUpdate({ _id: req.course._id }, update, { new: true })
+    Course.findOne({ _id: req.course._id }).populate('category').populate('teacher').select('-photo').exec((err, course) => {
+        if (err) {
+            console.log(err)
+        }
+        res.render('course/detailCourse', {
+            course: course
+        })
+    })
 }
 
 exports.getCoursePhoto = (req, res, next) => {

@@ -54,6 +54,10 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    detailDes: {
+        type: String,
+        required: true
+    },
     content: [
         {
             chapter: [

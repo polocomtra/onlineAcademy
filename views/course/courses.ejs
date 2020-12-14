@@ -8,7 +8,20 @@
                     <%= course.name %>
                 </h5>
                 <p class="card-text">
+                    <i>
+                        Category: <%= course.category.name %>
+                    </i>
+                </p>
+                <p class="card-text">
                     <%= course.description %>
+                </p>
+                <p class="card-text">
+                    Teacher: <%= course.teacher.name %>
+                </p>
+                <p class="card-text">
+                    <i>
+                        Price: <%= course.price %>
+                    </i>
                 </p>
                 <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
             </div>

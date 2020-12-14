@@ -17,7 +17,8 @@ const { layoutMiddleWare } = require('./middlewares/layout')
 const userRouter = require('./routes/auth')
 const categoryRouter = require('./routes/category')
 const coreRouter = require('./routes/core.js')
-const courseRouter = require('./routes/course')
+const courseRouter = require('./routes/course');
+const Course = require('./model/Course');
 const PORT = process.env.PORT || 5000;
 
 //database connect
@@ -53,7 +54,6 @@ app.use('/user', userRouter);
 app.use('/', coreRouter);
 app.use('/course', courseRouter);
 app.use('/category', categoryRouter);
-
 
 
 

@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="jumbotron row" style="background-color: #1e1e1c;">
+        <div class="col-sm-9 text-light">
+            <h1>
+                <%= course.name %>
+            </h1>
+            <div class="mt-2">
+                <h5>
+                    <%= course.description %>
+                </h5>
+                <small>
+                    View: <%= course.view %>
+                        <br>
+                        Last updated: <%= course.updatedAt %>
+                </small>
+            </div>
+        </div>
+        <img src="http://localhost:5000/course/photo/<%= course._id%>" class="col-sm-3" alt="<%= course.name%>">
+
+    </div>
+    <div class="body">
+        <div class="content mt-5">
+            <h5>Content</h5>
+            <%= course.content %>
+        </div>
+        <div class="detailDescription mt-5">
+            <h5>Description:</h5>
+            <%= course.detailDes %>
+        </div>
+        <div class="card mt-5">
+            <div class="card-body">
+                <h4 class="card-title">
+                    Teacher: <%= course.teacher.name %>
+                </h4>
+            </div>
+        </div>
+        <div class="review mt-5">
+            <h5>Review: </h5>
+            <%= course.review %>
+        </div>
+    </div>
+</div>
