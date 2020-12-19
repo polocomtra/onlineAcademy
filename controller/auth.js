@@ -7,7 +7,7 @@ exports.signup = (req, res) => {
     const user = new User(req.body);
     user.save((err, user) => {
         if (err) {
-            return res.render('data/signup', {
+            return res.render('auth/signup', {
                 error: true,
                 signup: false,
                 errorMessage: errorHandler(err)
@@ -43,16 +43,17 @@ exports.signin = (req, res) => {
         }
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
         res.cookie('t', token);
+        req.session.isAuth=true;
+        req.session.user=user;
         const { _id, name, email, role } = user;
-        return res.render('test')
+        res.redirect('/');
     })
 }
 
 exports.signout = (req, res) => {
-    res.clearCookie('t');
-    res.json({
-        message: "Signout successfully"
-    })
+    req.session.isAuth=false;
+    req.session.user=undefined;
+    res.redirect('/');
 }
 
 exports.getSignupForm = (req, res) => {

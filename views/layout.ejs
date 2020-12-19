@@ -2,9 +2,39 @@
 <html lang="en" dir="ltr">
 
 <head>
-    <meta charset="utf-8">
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="/images/read.png" type="image/x-icon">
     <title>OnlineAcademy</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+
+    <!-- font awesome style -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- nice select -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+        integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="/css/responsive.css" rel="stylesheet" />
     <!--Vài đường jQuery :))-->
     <script type="text/javascript">
         $(document).ready(function () {
@@ -73,98 +103,84 @@
 </head>
 
 <body>
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand" href="/">
+                    <img height="25" width="25" src="https://www.flaticon.com/svg/static/icons/svg/2436/2436636.svg">
+                    <span>
+                        oCademy
+                    </span>
+                </a>
 
-    <!--Navigation-->
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <!--Logo-->
-        <!-- Brand -->
-        <a class="navbar-brand" href="/" style="padding-left: 50px;">
-            <img height="25" width="25" src="https://www.flaticon.com/svg/static/icons/svg/2436/2436636.svg">
-            OnlineAcademy
-        </a>
-        <ul class="container-fluid navbar-nav" style="flex-grow: 1; padding-left: 200px;">
-            <!-- Dropdown -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class=""> </span>
+                </button>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Categories</a>
-                <ul class="dropdown-menu">
-                    <% fields.forEach(function(field) { %>
-                        <li>
-                            <a class="dropdown-item dropdown-toggle" href="category/<%=field.alias%>">
-                                <%=field.name%>
-                            </a>
-                            <ul class="submenu dropdown-menu">
-                                <% categories.forEach(function(category) { %>
-                                    <% if (category.field.equals(field._id)) { %>
-                                        <li><a class="dropdown-item"
-                                                href="/category/<%=field.alias%>/<%=category.alias%>">
-                                                <%=category.name%>
-                                            </a></li>
-                                        <% } %>
-                                            <% }) %>
+                <div class="collapse navbar-collapse ml-3 mr-3" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" style="color: #fff !important;" href="#"
+                                data-toggle="dropdown">Categories</a>
+                            <ul class="dropdown-menu">
+                                <% fields.forEach(function(field) { %>
+                                    <li>
+                                        <a class="dropdown-item dropdown-toggle" href="category/<%=field.alias%>">
+                                            <%=field.name%>
+                                        </a>
+                                        <ul class="submenu dropdown-menu">
+                                            <% categories.forEach(function(category) { %>
+                                                <% if (category.field.equals(field._id)) { %>
+                                                    <li><a class="dropdown-item"
+                                                            href="/category/<%=field.alias%>/<%=category.alias%>">
+                                                            <%=category.name%>
+                                                        </a></li>
+                                                    <% } %>
+                                                        <% }) %>
+                                        </ul>
+                                    </li>
+                                    <% }) %>
                             </ul>
                         </li>
-                        <% }) %>
-                </ul>
-            </li>
-
-            <li>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button type="button" class="btn btn-outline-info">
-                        <i class="fa fa-search"></i>
-                        Search
-                    </button>
-                </form>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <li style="padding-right: 20px;">
-                <form class="form-inline my-2 my-lg-0">
-                    <a class="btn btn-outline-info" href="/user/signin">Login</a>
-                </form>
-            </li>
-            <li style="padding-right: 20px;">
-                <form class="form-inline my-2 my-lg-0">
-                    <a class="btn btn-outline-success" href="/user/signup">Create New Account</a>
-                </form>
-            </li>
-        </ul>
-    </nav>
-
-    <!--List Group-->
-    <div class="container-fluid mt-3">
-        <div class="row">
-            <div class="col-sm-2">
-                <div class="card mt-3">
-                    <div class="card-header bg-dark text-white">
-                        <h4>All Categories</h4>
-                    </div>
-                    <div class="list-group list-group-flush">
-                        <% categories.forEach(function(category) { %>
-                            <% fields.forEach(function(field) { %>
-                                <% if (category.field.equals(field._id)) { %>
-                                    <a class="list-group-item  list-group-item-action"
-                                        href="/category/<%=field.alias%>/<%=category.alias%>">
-                                        <h5>
-                                            <%=category.name%>
-                                        </h5>
-                                    </a>
-                                    <% } %>
-                                        <% }) %>
-                                            <% }) %>
+                    </ul>
+                    <div class="user_option">
+                        <form class="form-inline my-2 my-lg-0 mr-3">
+                            <input class="form-control mr-sm-2" style="border-radius: 9999px;" type="search"
+                                placeholder="Search for anything" aria-label="Search">
+                            <button type="button" class="btn btn-outline-light">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                        <a class="nav-link" href="/user/signin">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            <span>Log in</span>
+                        </a>
+                        <a class="nav-link" href="/user/signup">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                            <span>Sign up</span>
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm mt-3">
-                <%- body %>
-            </div>
+            </nav>
         </div>
-    </div>
+    </header>
+    <%- body %>
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="/js/bootstrap.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+        integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+    <!-- custom js -->
+    <!-- owl slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+    </script>
+    <script src="/js/custom.js"></script>
 </body>
 
 </html>

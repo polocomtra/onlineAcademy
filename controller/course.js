@@ -50,14 +50,13 @@ exports.courseById = (req, res, next) => {
 }
 
 exports.getAllCourses = (req, res) => {
-    console.log(res.locals.categories);
     Course.find().populate('category').populate('teacher').exec((err, courses) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             })
         }
-        res.render('course/courses', {
+        res.render('core/home', {
             categories: res.locals.categories,
             fields: res.locals.fields,
             courses: courses
