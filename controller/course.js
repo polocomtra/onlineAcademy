@@ -49,7 +49,45 @@ exports.courseById = (req, res, next) => {
 
 }
 
+exports.getCoursesKind = async (req, res, next) => {
+    //All
+    await Course.find().limit(10).exec((err, courses) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+
+        req.top10Courses = courses;
+
+    })
+    //Most viewed & featured
+    await Course.find().sort({ view: -1 }).limit(10).exec((err, courses) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+        req.mostViewedCourses = courses;
+        req.featuredCourses = courses;
+    })
+    //Latest
+    await Course.find().sort({ createdAt: -1 }).limit(10).exec((err, courses) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+        req.latestCourses = courses;
+    })
+
+    next();
+}
+
 exports.getAllCourses = (req, res) => {
+
+    //all courses
     Course.find().populate('category').populate('teacher').exec((err, courses) => {
         if (err) {
             return res.status(400).json({
@@ -59,7 +97,11 @@ exports.getAllCourses = (req, res) => {
         res.render('core/home', {
             categories: res.locals.categories,
             fields: res.locals.fields,
-            courses: courses
+            courses: courses,
+            mostViewedCourses: req.mostViewedCourses,
+            featuredCourses: req.featuredCourses,
+            latestCourses: req.latestCourses,
+            top10Courses: req.top10Courses
         })
     })
 }

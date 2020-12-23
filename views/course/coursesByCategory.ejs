@@ -1,23 +1,25 @@
-<% if(courses.length!==0){ %>
-    <div class="row ml-5">
-        <% courses.forEach((course)=>{ %>
-            <div class="card col-sm-3 mr-5 mb-2">
-                <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
-                    alt="<%= course.name %>">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <%= course.name %>
-                    </h5>
-                    <p class="card-text">
-                        <%= course.description %>
-                    </p>
-                    <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
-                </div>
-            </div>
-            <% }) %>
-    </div>
-    <%}else{%>
+<div class="container mt-5">
+    <% if(courses.length!==0){ %>
         <div class="row ml-5">
-            <h2>No courses in this category</h2>
+            <% courses.forEach((course)=>{ %>
+                <div class="card col-sm-3 mr-5 mb-2">
+                    <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
+                        alt="<%= course.name %>">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%= course.name %>
+                        </h5>
+                        <p class="card-text">
+                            <%= course.description %>
+                        </p>
+                        <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                    </div>
+                </div>
+                <% }) %>
         </div>
-        <%}%>
+        <%}else{%>
+            <div class="row ml-5">
+                <h2>No courses in this category</h2>
+            </div>
+            <%}%>
+</div>

@@ -153,14 +153,22 @@
                                 <i class="fa fa-search"></i>
                             </button>
                         </form>
-                        <a class="nav-link" href="/user/signin">
-                            <i class="fa fa-sign-in" aria-hidden="true"></i>
-                            <span>Log in</span>
-                        </a>
-                        <a class="nav-link" href="/user/signup">
-                            <i class="fa fa-user-plus" aria-hidden="true"></i>
-                            <span>Sign up</span>
-                        </a>
+                        <% if(!isAuth){ %>
+                            <a class="nav-link" href="/user/signin">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                <span>Log in</span>
+                            </a>
+                            <a class="nav-link" href="/user/signup">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                <span>Sign up</span>
+                            </a>
+                            <%} %>
+                                <% if(isAuth){ %>
+                                    <a class="nav-link" href="/user/signout">
+                                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        <span>Sign out</span>
+                                    </a>
+                                    <%} %>
                     </div>
                 </div>
             </nav>
@@ -169,18 +177,18 @@
     <%- body %>
 
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <!-- bootstrap js -->
-    <script src="/js/bootstrap.js"></script>
-    <!-- nice select -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
-        integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
-    <!-- custom js -->
-    <!-- owl slider -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-    </script>
-    <script src="/js/custom.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <!-- bootstrap js -->
+        <script src="/js/bootstrap.js"></script>
+        <!-- nice select -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+            integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+        <!-- custom js -->
+        <!-- owl slider -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+        </script>
+        <script src="/js/custom.js"></script>
 </body>
 
 </html>
