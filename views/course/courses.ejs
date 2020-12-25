@@ -1,4 +1,7 @@
 <div class="container mt-5">
+    <form method="GET" action="/courses" id="pagingForm">
+        <input type="text" id="pagingIndex" value="1">
+    </form>
     <div class="row">
         <% courses.forEach((course)=>{ %>
             <div class="card col-sm-3 mr-5 mb-2">
@@ -29,4 +32,45 @@
             </div>
             <% }) %>
     </div>
+    <div class="paging-button text-center">
+        <button id="prevPage">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+        <span id="currentPage"></span>
+        <button id="nextPage">
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
+    </div>
 </div>
+<script>
+    let currentPage = 1;
+    let totalCourses = 11;
+    let coursesPerPage = 6;
+    let maxPage = 0;
+    if (totalCourses % coursesPerPage == 0) {
+        maxPage = totalCourses / coursesPerPage;
+    } else {
+        maxPage = Math.floor((totalCourses / coursesPerPage) + 1);
+    }
+    document.getElementById('currentPage').innerHTML = currentPage;
+    document.getElementById('prevPage').addEventListener("click", function () {
+
+        if (currentPage > 1) {
+            currentPage--;
+        }
+        document.getElementById('currentPage').innerHTML = currentPage;
+        document.getElementById('pagingIndex').value = currentPage;
+        console.log(document.getElementById('pagingIndex').value)
+    })
+    document.getElementById('nextPage').addEventListener("click", function () {
+        if (currentPage < maxPage) {
+            currentPage++;
+        }
+        document.getElementById('currentPage').innerHTML = currentPage;
+        document.getElementById('pagingIndex').value = currentPage;
+        console.log(document.getElementById('pagingIndex').value)
+
+    })
+    //Post value to input
+
+</script>

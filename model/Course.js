@@ -80,4 +80,6 @@ const courseSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
+courseSchema.index({ name: 'text' });
+
 module.exports = mongoose.model('Course', courseSchema);

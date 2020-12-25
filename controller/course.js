@@ -59,7 +59,7 @@ exports.getCoursesKind = async (req, res, next) => {
             })
         }
 
-        req.top10Courses = courses;
+        res.locals.top10Courses = courses;
 
     })
     //Most viewed & featured
@@ -69,8 +69,8 @@ exports.getCoursesKind = async (req, res, next) => {
                 error: errorHandler(err)
             })
         }
-        req.mostViewedCourses = courses;
-        req.featuredCourses = courses;
+        res.locals.mostViewedCourses = courses;
+        res.locals.featuredCourses = courses;
     })
     //Latest
     await Course.find().sort({ createdAt: -1 }).limit(10).exec((err, courses) => {
@@ -79,14 +79,13 @@ exports.getCoursesKind = async (req, res, next) => {
                 error: errorHandler(err)
             })
         }
-        req.latestCourses = courses;
+        res.locals.latestCourses = courses;
     })
 
     next();
 }
 
 exports.getAllCourses = (req, res) => {
-
     //all courses
     Course.find().populate('category').populate('teacher').exec((err, courses) => {
         if (err) {
@@ -98,10 +97,25 @@ exports.getAllCourses = (req, res) => {
             categories: res.locals.categories,
             fields: res.locals.fields,
             courses: courses,
-            mostViewedCourses: req.mostViewedCourses,
-            featuredCourses: req.featuredCourses,
-            latestCourses: req.latestCourses,
-            top10Courses: req.top10Courses
+            mostViewedCourses: res.locals.mostViewedCourses,
+            featuredCourses: res.locals.featuredCourses,
+            latestCourses: res.locals.latestCourses,
+            top10Courses: res.locals.top10Courses
+        })
+    })
+}
+
+exports.getAllCoursesByPage = (req, res) => {
+    let limit = 6;
+
+    Course.find().populate('category').populate('teacher').skip(0).limit(limit).exec((err, courses) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+        res.render('course/courses', {
+            courses: courses
         })
     })
 }
@@ -140,6 +154,18 @@ exports.getCoursesByCategory = (req, res) => {
         }
         res.render('course/coursesByCategory', {
             courses: courses.filter(course => course.category.alias == categoryName),
+        })
+    })
+}
+
+exports.handleSearch = (req, res) => {
+    let query = req.query.q;
+    Course.find({ $text: { $search: query } }).exec((err, courses) => {
+        if (err) {
+            console.log(err)
+        }
+        res.render('course/courses', {
+            courses: courses
         })
     })
 }

@@ -7,12 +7,14 @@ function getYear() {
 
 getYear();
 
+//paging Info
 // nice select
 $(document).ready(function () {
     $('select').niceSelect();
-    $('.searchInput').on('focus',function(){
-        $('.searchForm').css('border','none');
+    $('.searchInput').on('focus', function () {
+        $('.searchForm').css('border', 'none');
     })
+
 });
 
 // client section owl carousel
@@ -40,4 +42,36 @@ $(".client_owl-carousel").owlCarousel({
         }
     }
 });
+
+$('.course-carousel').owlCarousel({
+    items: 4,
+    loop: true,
+    margin: 20,
+    nav: true,
+    smartSpeed: 900,
+    responsive: {
+        0: {
+            items: 1
+        },
+        600: {
+            items: 3
+        },
+        1000: {
+            items: 5
+        }
+    },
+    navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+    autoplay: true,
+    autoplayTimeout: 1000,
+    autoplayHoverPause: true
+})
+
+//Home search
+$('#search-form').submit(function () {
+    let query = document.getElementById('searchBar').value;
+    document.getElementById('search-form').action = `/course/search?q=${query}`;
+})
+
+
+
 

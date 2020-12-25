@@ -10,14 +10,13 @@
                         </h1>
                     </div>
                     <div class="find_container">
-                        <form>
+                        <form id="search-form" method="POST">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="searchBar"
                                     placeholder="What do you want to learn ?">
-
                             </div>
                             <div class="btn-box">
-                                <button type="submit" class="btn ">Search</button>
+                                <button type="submit" class="btn">Search</button>
                             </div>
                         </form>
                     </div>
@@ -122,175 +121,104 @@
 <!-- job section -->
 <section class="job_section layout_padding">
     <div class="container">
+        <!-- All Courses -->
         <div class="heading_container">
             <h2>
                 All Courses
             </h2>
-        </div>
-        <div class="job_container">
-            <div class="job_tabs-box" id="myTab" role="tablist">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active " id="jb-1-tab" data-toggle="tab" href="#jb-1" role="tab"
-                            aria-controls="jb-1" aria-selected="true"> Top 10 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " id="jb-2-tab" data-toggle="tab" href="#jb-2" role="tab"
-                            aria-controls="jb-2" aria-selected="false"> Latest </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link  " id="jb-3-tab" data-toggle="tab" href="#jb-3" role="tab"
-                            aria-controls="jb-3" aria-selected="false"> Featured</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " id="jb-4-tab" data-toggle="tab" href="#jb-4" role="tab"
-                            aria-controls="jb-4" aria-selected="false">Most Viewed</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " id="jb-5-tab" data-toggle="tab" href="#jb-5" role="tab"
-                            aria-controls="jb-5" aria-selected="false">Most Registered</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tab-content" id="myTabContent">
-                <div class="job_board tab-pane fade show active" id="jb-1" role="tabpanel" aria-labelledby="jb-1-tab">
-                    <% top10Courses.forEach((course)=>{ %>
-                        <div class="box">
-                            <div class="job_content-box">
-                                <div class="img-box">
-                                    <img src="http://localhost:5000/course/photo/<%= course._id%>" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>
-                                        <%=course.name%>
-                                    </h5>
-                                    <div class="detail-info">
-
-                                        <h6>
-                                            <i class="fa fa-money" aria-hidden="true"></i>
-                                            <span>
-                                                $<%= course.price %>
-                                            </span>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="option-box">
-                                <button class="fav-btn">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                </button>
-                                <a href="" class="apply-btn">
-                                    Enroll Now
-                                </a>
-                            </div>
-                        </div>
-                        <% }) %>
-                </div>
-                <div class="job_board tab-pane fade" id="jb-2" role="tabpanel" aria-labelledby="jb-2-tab">
-                    <% latestCourses.forEach((course)=>{ %>
-                        <div class="box">
-                            <div class="job_content-box">
-                                <div class="img-box">
-                                    <img src="http://localhost:5000/course/photo/<%= course._id%>" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>
-                                        <%=course.name%>
-                                    </h5>
-                                    <div class="detail-info">
-
-                                        <h6>
-                                            <i class="fa fa-money" aria-hidden="true"></i>
-                                            <span>
-                                                $<%= course.price %>
-                                            </span>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="option-box">
-                                <button class="fav-btn">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                </button>
-                                <a href="" class="apply-btn">
-                                    Enroll Now
-                                </a>
-                            </div>
-                        </div>
-                        <% }) %>
-                </div>
-                <div class="job_board tab-pane fade" id="jb-3" role="tabpanel" aria-labelledby="jb-3-tab">
-                    <% featuredCourses.forEach((course)=>{ %>
-                        <div class="box">
-                            <div class="job_content-box">
-                                <div class="img-box">
-                                    <img src="http://localhost:5000/course/photo/<%= course._id%>" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>
-                                        <%=course.name%>
-                                    </h5>
-                                    <div class="detail-info">
-
-                                        <h6>
-                                            <i class="fa fa-money" aria-hidden="true"></i>
-                                            <span>
-                                                $<%= course.price %>
-                                            </span>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="option-box">
-                                <button class="fav-btn">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                </button>
-                                <a href="" class="apply-btn">
-                                    Enroll Now
-                                </a>
-                            </div>
-                        </div>
-                        <% }) %>
-                </div>
-                <div class="job_board tab-pane fade" id="jb-4" role="tabpanel" aria-labelledby="jb-4-tab">
-                    <% mostViewedCourses.forEach((course)=>{ %>
-                        <div class="box">
-                            <div class="job_content-box">
-                                <div class="img-box">
-                                    <img src="http://localhost:5000/course/photo/<%= course._id%>" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h5>
-                                        <%=course.name%>
-                                    </h5>
-                                    <div class="detail-info">
-
-                                        <h6>
-                                            <i class="fa fa-money" aria-hidden="true"></i>
-                                            <span>
-                                                $<%= course.price %>
-                                            </span>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="option-box">
-                                <button class="fav-btn">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                </button>
-                                <a href="" class="apply-btn">
-                                    Enroll Now
-                                </a>
-                            </div>
-                        </div>
-                        <% }) %>
-                </div>
-            </div>
-        </div>
-        <div class="btn-box">
-            <a href="">
-                View All
+            <a href="/courses">
+                View all
             </a>
+        </div>
+        <div class="container-fluid">
+            <div class="carousel-wrap">
+                <div class="owl-carousel course-carousel">
+                    <% top10Courses.forEach((course)=>{ %>
+                        <div class="card h-100 w-100">
+                            <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
+                                alt="<%= course.name %>">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= course.name %>
+                                </h5>
+                                <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </div>
+        <!-- Featured Courses -->
+        <div class="heading_container">
+            <h2>
+                Featured
+            </h2>
+        </div>
+        <div class="container-fluid">
+            <div class="carousel-wrap">
+                <div class="owl-carousel course-carousel">
+                    <% featuredCourses.forEach((course)=>{ %>
+                        <div class="card h-100 w-100">
+                            <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
+                                alt="<%= course.name %>">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= course.name %>
+                                </h5>
+                                <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </div>
+        <!-- Most viewed Courses -->
+        <div class="heading_container">
+            <h2>
+                Most Viewed
+            </h2>
+        </div>
+        <div class="container-fluid">
+            <div class="carousel-wrap">
+                <div class="owl-carousel course-carousel">
+                    <% mostViewedCourses.forEach((course)=>{ %>
+                        <div class="card h-100 w-100">
+                            <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
+                                alt="<%= course.name %>">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= course.name %>
+                                </h5>
+                                <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </div>
+        <!-- Latest Courses -->
+        <div class="heading_container">
+            <h2>
+                Latest
+            </h2>
+        </div>
+        <div class="container-fluid">
+            <div class="carousel-wrap">
+                <div class="owl-carousel course-carousel">
+                    <% latestCourses.forEach((course)=>{ %>
+                        <div class="card h-100 w-100">
+                            <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
+                                alt="<%= course.name %>">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= course.name %>
+                                </h5>
+                                <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -305,7 +233,7 @@
                 What says our Clients
             </h2>
         </div>
-        <div class="carousel-wrap ">
+        <div class="carousel-wrap">
             <div class="owl-carousel client_owl-carousel">
                 <div class="item">
                     <div class="box">

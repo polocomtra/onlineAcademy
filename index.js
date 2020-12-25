@@ -9,8 +9,8 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
 const expressLayouts = require('express-ejs-layouts');
-const path=require('path')
-const session=require('express-session');
+const path = require('path')
+const session = require('express-session');
 
 //middlewares for layout
 const { layoutMiddleWare } = require('./middlewares/layout')
@@ -21,6 +21,7 @@ const categoryRouter = require('./routes/category')
 const coreRouter = require('./routes/core.js')
 const courseRouter = require('./routes/course');
 const Course = require('./model/Course');
+const { getCoursesKind } = require('./controller/course');
 const PORT = process.env.PORT || 5000;
 
 //database connect
@@ -45,18 +46,19 @@ app.use(session({
     secret: 'SECRET_KEY',
     resave: false,
     saveUninitialized: true,
-    cookie: { 
-          // secure: true 
-      }
-  }))
+    cookie: {
+        // secure: true 
+    }
+}))
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname,'/public/')));
+app.use(express.static(path.join(__dirname, '/public/')));
 app.use(expressLayouts);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(layoutMiddleWare);
+app.use(getCoursesKind);
 app.set('trust proxy', 1) // trust first proxy
 
 
