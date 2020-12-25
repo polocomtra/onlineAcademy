@@ -21,7 +21,7 @@ const categoryRouter = require('./routes/category')
 const coreRouter = require('./routes/core.js')
 const courseRouter = require('./routes/course');
 const Course = require('./model/Course');
-const { getCoursesKind } = require('./controller/course');
+const { getCoursesKind, getPagingInfo } = require('./controller/course');
 const PORT = process.env.PORT || 5000;
 
 //database connect
@@ -59,6 +59,7 @@ app.use(cookieParser());
 app.use(expressValidator());
 app.use(layoutMiddleWare);
 app.use(getCoursesKind);
+app.use(getPagingInfo);
 app.set('trust proxy', 1) // trust first proxy
 
 

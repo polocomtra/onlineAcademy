@@ -104,18 +104,48 @@ exports.getAllCourses = (req, res) => {
         })
     })
 }
+exports.getPagingInfo = async (req, res, next) => {
+    let total;
+    let coursesPerPage = 4;
+    let pages;
+    let pagesArray = [];
+    let skipOffset;
+    let currentPage = req.query.p;
+    if (currentPage) {
+        skipOffset = coursesPerPage * currentPage;
+    } else {
+        skipOffset = 0;
+    }
+    await Course.find().exec((err, courses) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+        total = courses.length;
+        pages = (total % coursesPerPage == 0) ? total / coursesPerPage : Math.floor(total / coursesPerPage) + 1;
+        for (let i = 1; i <= pages; i++) {
+            const item = {
+                value: i
+            }
+            pagesArray.push(item);
+        }
+        req.session.pages = pagesArray;
+    })
+    next();
+}
 
 exports.getAllCoursesByPage = (req, res) => {
-    let limit = 6;
-
-    Course.find().populate('category').populate('teacher').skip(0).limit(limit).exec((err, courses) => {
+    let skipOffset = (req.query.p - 1) * 4;
+    Course.find().populate('category').populate('teacher').skip(skipOffset).limit(4).exec((err, courses) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             })
         }
         res.render('course/courses', {
-            courses: courses
+            courses: courses,
+            pages: req.session.pages
         })
     })
 }
