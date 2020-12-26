@@ -3,20 +3,32 @@
         <div class="col-sm-9 text-light">
             <h1>
                 <%= course.name %>
+                <button type="button" class="btn btn-outline-success" data-mdb-ripple-color="dark" style="font-size : 20px;">
+                    <i class="fa fa-dollar"></i><%= course.price %>
+                </button>
             </h1>
             <div class="mt-2">
                 <h5>
                     <%= course.description %>
                 </h5>
                 <small>
-                    View: <%= course.view %>
-                        <br>
-                        Last updated: <%= course.updatedAt %>
+                    Views: <%= course.view %>
+                    <br>
+                    Students: <%= course.students.length%>
+                    <br>
+                    <!-- Xử lí điểm rate -->
+                    <% var ratePoint = 0 %>
+                    <% course.reviews.forEach(function(courses) { %>
+                        <% ratePoint += courses.rated %>
+                    <% }) %>
+                    <% var point = Math.round(ratePoint/ course.reviews.length * 100) / 100 %>
+                    Point: <%= point %>/5 (<%= course.reviews.length %> ratings)
+                    <br>
+                    Last updated: <%= course.updatedAt %>
                 </small>
             </div>
         </div>
         <img src="http://localhost:5000/course/photo/<%= course._id%>" class="col-sm-3" alt="<%= course.name%>">
-
     </div>
     <div class="body">
         <div class="content mt-5">
@@ -32,11 +44,22 @@
                 <h4 class="card-title">
                     Teacher: <%= course.teacher.name %>
                 </h4>
+                <h4 class="card-title">
+                    Email: <%= course.teacher.email %>
+                </h4>
             </div>
         </div>
         <div class="review mt-5">
             <h5>Review: </h5>
-            <%= course.review %>
+            <% course.reviews.forEach(function(courses) { %>
+                <p><%= courses.body %></p>
+            <% }) %>
+        </div>
+
+        <div class="mt-5">
+            <h2>
+                Other courses for you:
+            </h2>
         </div>
     </div>
 </div>
