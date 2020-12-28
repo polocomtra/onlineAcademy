@@ -8,6 +8,7 @@ router.get('/:courseId', getCourseById)
 router.get('/photo/:courseId', getCoursePhoto)
 router.post('/search', handleSearch)
 
+
 router.param('courseId', courseById)
 
 module.exports = router;

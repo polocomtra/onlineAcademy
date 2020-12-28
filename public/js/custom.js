@@ -69,7 +69,7 @@ $('.course-carousel').owlCarousel({
 //Home search
 $('#search-form').submit(function () {
     let query = document.getElementById('searchBar').value;
-    document.getElementById('search-form').action = `/course/search?q=${query}`;
+    document.getElementById('search-form').action = `/course/search?q=${query}&p=1`;
 })
 
 

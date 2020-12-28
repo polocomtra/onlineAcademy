@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllCourses, getCoursesKind, getAllCoursesByPage } = require('../controller/course')
+const { getAllCourses, getAllCoursesByPage, handleSearch } = require('../controller/course')
 
 
-router.get('/', getCoursesKind, getAllCourses);
+router.get('/', getAllCourses);
 router.get('/courses', getAllCoursesByPage);
+router.get('/courses/search', handleSearch);
 
 
 module.exports = router;

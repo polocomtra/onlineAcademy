@@ -3,6 +3,7 @@ const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
 const { errorHandler } = require('../helpers/errorHandler')
+const coursesPerPageNum = parseInt(process.env.COURSES_PER_PAGE);
 
 exports.createCourse = (req, res) => {
     let form = new formidable.IncomingForm();
@@ -105,17 +106,10 @@ exports.getAllCourses = (req, res) => {
     })
 }
 exports.getPagingInfo = async (req, res, next) => {
-    let total;
-    let coursesPerPage = 4;
-    let pages;
+    let total = 0;
+    let coursesPerPage = coursesPerPageNum;
+    let pages = 0;
     let pagesArray = [];
-    let skipOffset;
-    let currentPage = req.query.p;
-    if (currentPage) {
-        skipOffset = coursesPerPage * currentPage;
-    } else {
-        skipOffset = 0;
-    }
     await Course.find().exec((err, courses) => {
         if (err) {
             return res.status(400).json({
@@ -136,8 +130,8 @@ exports.getPagingInfo = async (req, res, next) => {
 }
 
 exports.getAllCoursesByPage = (req, res) => {
-    let skipOffset = (req.query.p - 1) * 4;
-    Course.find().populate('category').populate('teacher').skip(skipOffset).limit(4).exec((err, courses) => {
+    let skipOffset = (req.query.p - 1) * coursesPerPageNum;
+    Course.find().populate('category').populate('teacher').skip(skipOffset).limit(coursesPerPageNum).exec((err, courses) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -188,14 +182,62 @@ exports.getCoursesByCategory = (req, res) => {
     })
 }
 
-exports.handleSearch = (req, res) => {
+exports.getPagingInfoForSearch = async (req, res, next) => {
+    let total = 0;
+    let coursesPerPage = coursesPerPageNum;
+    let pages = 0;
+    let pagesArray = [];
     let query = req.query.q;
-    Course.find({ $text: { $search: query } }).exec((err, courses) => {
+    await Course.find({ $text: { $search: query } }).exec((err, courses) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+        total = courses.length;
+        pages = (total % coursesPerPage == 0) ? total / coursesPerPage : Math.floor(total / coursesPerPage) + 1;
+        for (let i = 1; i <= pages; i++) {
+            const item = {
+                value: i
+            }
+            pagesArray.push(item);
+        }
+        req.session.pagesForSearch = pagesArray;
+    })
+    next();
+}
+
+exports.handleSearch = async (req, res) => {
+    let query = req.query.q;
+    let skipOffset = (req.query.p - 1) * coursesPerPageNum;
+    let total = 0;
+    let coursesPerPage = coursesPerPageNum;
+    let pages = 0;
+    let pagesArray = [];
+    await Course.find({ $text: { $search: query } }).exec((err, courses) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+        total = courses.length;
+        pages = (total % coursesPerPage == 0) ? total / coursesPerPage : Math.floor(total / coursesPerPage) + 1;
+        for (let i = 1; i <= pages; i++) {
+            const item = {
+                value: i
+            }
+            pagesArray.push(item);
+        }
+    })
+    await Course.find({ $text: { $search: query } }).skip(skipOffset).limit(coursesPerPageNum).exec((err, courses) => {
         if (err) {
             console.log(err)
         }
-        res.render('course/courses', {
-            courses: courses
+        res.render('course/coursesForSearch', {
+            courses: courses,
+            pages: pagesArray,
+            query: query
         })
     })
 }
+
