@@ -32,17 +32,22 @@
     </div>
     <div class="body">
         <div class="content mt-5">
-            <h5>Content</h5>
+            <h2>Content</h2>
             <%= course.content %>
         </div>
         <div class="detailDescription mt-5">
-            <h5>Description:</h5>
-            <%= course.detailDes %>
+            <h2>Description:</h2>
+            <div class=" card-body comment-widgets">
+                <%= course.detailDes %>
+            </div>
         </div>
         <div class="card mt-5">
-            <div class="card-body">
+            <h2>
+                Teacher:
+            </h2>
+            <div class="card-body comment-widgets">
                 <h4 class="card-title">
-                    Teacher: <%= course.teacher.name %>
+                    Teacher's name: <%= course.teacher.name %>
                 </h4>
                 <h4 class="card-title">
                     Email: <%= course.teacher.email %>
@@ -50,15 +55,37 @@
             </div>
         </div>
         <div class="review mt-5">
-            <h5>Review: </h5>
-            <% course.reviews.forEach(function(courses) { %>
-                <p><%= courses.body %></p>
-            <% }) %>
+            <h2>
+                Review:
+            </h2>
+            <div class="mt-100 mb-100">
+                <div>
+                    <div class="card comment-widgets">
+                        <% course.reviews.forEach(function(courses) { %>
+                        <div class="comment-widgets">
+                            <div class="d-flex flex-row comment-row m-t-0">
+                                <div class="p-2"><img src="https://clipartart.com/images/login-background-images-clipart.jpg" alt="user" width="50" class="rounded-circle"></div>
+                                <div class="comment-text w-100">
+                                    <h6 class="font-medium">
+                                        <%if (courses.rated==1) {%>  <i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        <%if (courses.rated==2) {%>  <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        <%if (courses.rated==3) {%>  <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        <%if (courses.rated==4) {%>  <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        <%if (courses.rated==5) {%>  <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        (<%= courses.rated %>)
+                                    </h6> 
+                                    <span class="m-b-15 d-block"><%= courses.body %></span>
+                                </div>
+                            </div> 
+                        </div> 
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
         </div>
-
         <div class="mt-5">
             <h2>
-                Other courses for you:
+                Some course for you:
             </h2>
         </div>
     </div>

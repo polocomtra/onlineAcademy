@@ -84,6 +84,11 @@ exports.getCoursesKind = async (req, res, next) => {
 
     next();
 }
+//Top 5 courses with same category
+//Business
+
+
+//
 
 exports.getAllCourses = (req, res) => {
     //all courses
