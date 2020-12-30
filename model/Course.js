@@ -18,6 +18,11 @@ const courseSchema = new mongoose.Schema({
     },
     reviews: [
         {
+            reviewer: {
+                type: ObjectId,
+                ref: "User",
+                required: true
+            },
             rated: {
                 type: Number,
                 required: true
@@ -60,6 +65,10 @@ const courseSchema = new mongoose.Schema({
     },
     content: [
         {
+            name:{
+                type: String,
+                require:true
+            },
             chapter: [
                 {
                     lesson: {
