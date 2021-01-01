@@ -85,6 +85,11 @@ exports.getCoursesKind = async (req, res, next) => {
 
     next();
 }
+//Top 5 courses with same category
+//Business
+
+
+//
 
 exports.getAllCourses = (req, res) => {
     //all courses
@@ -149,7 +154,7 @@ exports.getCourseById = async (req, res) => {
     let { view } = req.course;
     let update = { view: view + 1 };
     await Course.findByIdAndUpdate({ _id: req.course._id }, update, { new: true })
-    Course.findOne({ _id: req.course._id }).populate('category').populate('teacher').select('-photo').exec((err, course) => {
+    Course.findOne({ _id: req.course._id }).populate('category').populate('teacher').populate('reviews.reviewer').select('-photo').exec((err, course) => {
         if (err) {
             console.log(err)
         }

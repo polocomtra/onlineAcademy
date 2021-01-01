@@ -3,40 +3,115 @@
         <div class="col-sm-9 text-light">
             <h1>
                 <%= course.name %>
+                <button type="button" class="btn btn-outline-success" data-mdb-ripple-color="dark" style="font-size : 20px;">
+                    <i class="fa fa-dollar"></i><%= course.price %>
+                </button>
             </h1>
             <div class="mt-2">
                 <h5>
                     <%= course.description %>
                 </h5>
                 <small>
-                    View: <%= course.view %>
-                        <br>
-                        Last updated: <%= course.updatedAt %>
+                    Views: <%= course.view %>
+                    <br>
+                    Students: <%= course.students.length%>
+                    <br>
+                    <!-- Xử lí điểm rate -->
+                    <% var ratePoint = 0 %>
+                    <% course.reviews.forEach(function(courses) { %>
+                        <% ratePoint += courses.rated %>
+                    <% }) %>
+                    <% var point = Math.round(ratePoint/ course.reviews.length * 100) / 100 %>
+                    Point: <%= point %>/5 (<%= course.reviews.length %> ratings)
+                    <br>
+                    Last updated: <%= course.updatedAt %>
                 </small>
             </div>
         </div>
         <img src="http://localhost:5000/course/photo/<%= course._id%>" class="col-sm-3" alt="<%= course.name%>">
-
     </div>
     <div class="body">
-        <div class="content mt-5">
-            <h5>Content</h5>
-            <%= course.content %>
+        <div class="content mt-5 ">
+            <h2>Content</h2>
+            <div class="comment-widgets" id="accordionExample">
+              <% var count=0 %>
+              <% course.content.forEach(function(courses) { %>
+                <% count++ %>
+                <div class="comment-widgets">
+                  <div class="card-header" id="heading<%=count%>">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse<%=count%>" aria-expanded="false" aria-controls="collapse<%=count%>">
+                        <%=courses.name%>
+                      </button>
+                    </h5>
+                  </div>
+                  
+                  <div id="collapse<%=count%>" class="collapse" aria-labelledby="headin<%=count%>" data-parent="#accordionExample">
+                    <div class="card-body">
+                      <% courses.chapter.forEach(function(chapter) { %>
+                      <a href=""><%=chapter.lesson%></a>
+                      <br></br>
+                      <% }) %>
+                    </div>
+                  </div>
+                  
+                </div>
+                <% }) %>
+              </div>
         </div>
         <div class="detailDescription mt-5">
-            <h5>Description:</h5>
-            <%= course.detailDes %>
+            <h2>Description:</h2>
+            <div class=" card-body comment-widgets">
+                <%= course.detailDes %>
+            </div>
         </div>
         <div class="card mt-5">
-            <div class="card-body">
+            <h2>
+                Teacher:
+            </h2>
+            <div class="card-body comment-widgets">
                 <h4 class="card-title">
-                    Teacher: <%= course.teacher.name %>
+                    Teacher's name: <%= course.teacher.name %>
+                </h4>
+                <h4 class="card-title">
+                    Email: <%= course.teacher.email %>
                 </h4>
             </div>
         </div>
         <div class="review mt-5">
-            <h5>Review: </h5>
-            <%= course.review %>
+            <h2>
+                Review:
+            </h2>
+            <div class="mt-100 mb-100">
+                <div>
+                    <div class="card comment-widgets">
+                        <% course.reviews.forEach(function(courses) { %>
+                        <div class="comment-widgets">
+                            <div class="d-flex flex-row comment-row m-t-0">
+                                <div class="p-2"><img src="https://clipartart.com/images/login-background-images-clipart.jpg" alt="user" width="50" class="rounded-circle"></div>
+                                <div class="comment-text w-100">
+                                    <h6 class="font-medium" style="font-weight: bold;"><%= courses.reviewer.name%></h6>
+                                    <h6 class="font-medium">
+                                        <%if (courses.rated==1) {%>  <i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        <%if (courses.rated==2) {%>  <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        <%if (courses.rated==3) {%>  <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        <%if (courses.rated==4) {%>  <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        <%if (courses.rated==5) {%>  <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>  <%}%>
+                                        (<%= courses.rated %>)
+                                    </h6> 
+                                    <span class="m-b-15 d-block"><%= courses.body %></span>
+                                </div>
+                            </div> 
+                        </div> 
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <h2>
+                Some course for you:
+            </h2>
         </div>
     </div>
 </div>

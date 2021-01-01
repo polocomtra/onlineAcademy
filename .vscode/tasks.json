@@ -6,7 +6,11 @@
 			"script": "start",
 			"problemMatcher": [],
 			"label": "npm: start",
-			"detail": "node index.js"
+			"detail": "node index.js",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }
