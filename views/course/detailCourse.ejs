@@ -35,21 +35,23 @@
             <h2>Content</h2>
             <div class="comment-widgets" id="accordionExample">
               <% var count=0 %>
-              <% course.content.forEach(function(courses) { %>
+              <% course.content.forEach(function(contents) { %>
                 <% count++ %>
                 <div class="comment-widgets">
                   <div class="card-header" id="heading<%=count%>">
                     <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse<%=count%>" aria-expanded="false" aria-controls="collapse<%=count%>">
-                        <%=courses.name%>
+                      <button style="width: 100%; text-align: left;" class="btn collapsed" type="button" data-toggle="collapse" data-target="#collapse<%=count%>" aria-expanded="false" aria-controls="collapse<%=count%>">
+                        <i class="fa fa-chevron-down" aria-hidden="true"></i>  Chapter <%=count%>: <%=contents.name%>
                       </button>
                     </h5>
                   </div>
                   
                   <div id="collapse<%=count%>" class="collapse" aria-labelledby="headin<%=count%>" data-parent="#accordionExample">
                     <div class="card-body">
-                      <% courses.chapter.forEach(function(chapter) { %>
-                      <a href=""><%=chapter.lesson%></a>
+                      <% contents.chapter.forEach(function(chapter) { %>
+                      <a href="">
+                        <i class="fa fa-play-circle" aria-hidden="true"></i>  <%=chapter.lesson%>
+                      </a>
                       <br></br>
                       <% }) %>
                     </div>
