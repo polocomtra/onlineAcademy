@@ -3,35 +3,71 @@ const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
 const { errorHandler } = require('../helpers/errorHandler')
+const Category = require('../model/Category')
 const coursesPerPageNum = parseInt(process.env.COURSES_PER_PAGE);
 
-exports.createCourse = (req, res) => {
-    let form = new formidable.IncomingForm();
-    form.keepExtensions = true;
-    form.parse(req, (err, fields, files) => {
+exports.createCourse = async (req, res) => {
+
+    const teacher = res.locals.user._id;
+    let categoryObjectId;
+    let content = [];
+    //Handle content, doan xu li nay nhieu não vl
+    let chapterCount = parseInt(req.body.chapterCount);
+    for (let i = 1; i <= chapterCount; i++) {
+        let chapterSeries = {};
+        let lessonCountPerChapter = `lessonCountForChapter${i}`;
+        let chapterTitle = `chapter${i}`;
+        let lessonPerChapter = 0;
+        for (let item of Object.keys(req.body)) {
+            if (item == chapterTitle) {
+                chapterSeries.name = req.body[item];
+            }
+            if (item == lessonCountPerChapter) {
+                chapterSeries.chapter = [];
+                lessonPerChapter = req.body[item].length;
+                for (let j = 1; j <= lessonPerChapter; j++) {
+                    let lessonTitle = `lesson${j}ForChapter${i}`;
+                    for (let title of Object.keys(req.body)) {
+                        if (title == lessonTitle) {
+                            chapterSeries.chapter.push({ lesson: req.body[title] });
+                        }
+                    }
+                }
+
+            }
+        }
+        content.push(chapterSeries);
+    }
+    const { name, category, price, description, detailDes } = req.body;
+    //Phải có tên, thể loại, giảng viên
+    if (!name || !category || !teacher) {
+        return res.status(400).json({
+            error: "All fields are required"
+        })
+    }
+    await Category.findOne({ name: category }).exec((err, category) => {
         if (err) {
-            return res.status(400).json({
-                error: "Image could not be uploaded"
-            })
+            console.log(err);
+            return;
         }
-        const { name, category, teacher, price, description } = fields;
-        if (!name || !category || !teacher || !price || !description) {
-            return res.status(400).json({
-                error: "All fields are required"
-            })
-        }
-        let course = new Course(fields);
-        if (files.photo) {
-            course.photo.data = fs.readFileSync(files.photo.path);
-            course.photo.contentType = files.photo.type;
+        categoryObjectId = category._id;
+        console.log(content)
+        const newCourse = { name, category: categoryObjectId, teacher, price, description, detailDes, content };
+        let course = new Course(newCourse);
+        if (req.files.photo[0]) {
+            course.photo.data = fs.readFileSync(req.files.photo[0].path);
+            course.photo.contentType = req.files.photo[0].mimetype;
         }
         course.save((err, result) => {
             if (err) {
+                console.log(err)
                 return res.status(400).json({
                     error: errorHandler(err)
                 })
             }
-            res.json(result)
+            res.render('course/addCourseForm', {
+                successMessage: 'Add course successfully.'
+            })
         })
     })
 }
@@ -59,9 +95,7 @@ exports.getCoursesKind = async (req, res, next) => {
                 error: errorHandler(err)
             })
         }
-
-        res.locals.top10Courses = courses;
-
+        req.session.top10Courses = courses;
     })
     //Most viewed & featured
     await Course.find().sort({ view: -1 }).limit(10).exec((err, courses) => {
@@ -70,8 +104,8 @@ exports.getCoursesKind = async (req, res, next) => {
                 error: errorHandler(err)
             })
         }
-        res.locals.mostViewedCourses = courses;
-        res.locals.featuredCourses = courses;
+        req.session.mostViewedCourses = courses;
+        req.session.featuredCourses = courses;
     })
     //Latest
     await Course.find().sort({ createdAt: -1 }).limit(10).exec((err, courses) => {
@@ -80,9 +114,8 @@ exports.getCoursesKind = async (req, res, next) => {
                 error: errorHandler(err)
             })
         }
-        res.locals.latestCourses = courses;
+        req.session.latestCourses = courses;
     })
-
     next();
 }
 //Top 5 courses with same category
@@ -103,10 +136,10 @@ exports.getAllCourses = (req, res) => {
             categories: res.locals.categories,
             fields: res.locals.fields,
             courses: courses,
-            mostViewedCourses: res.locals.mostViewedCourses,
-            featuredCourses: res.locals.featuredCourses,
-            latestCourses: res.locals.latestCourses,
-            top10Courses: res.locals.top10Courses
+            mostViewedCourses: req.session.mostViewedCourses,
+            featuredCourses: req.session.featuredCourses,
+            latestCourses: req.session.latestCourses,
+            top10Courses: req.session.top10Courses
         })
     })
 }
@@ -174,7 +207,6 @@ exports.getCoursePhoto = (req, res, next) => {
 
 exports.getCoursesByCategory = (req, res) => {
     const { fieldName, categoryName } = req.params;
-    console.log(`Field:${fieldName},category:${categoryName}`);
     Course.find().populate('category').exec((err, courses) => {
         if (err) {
             return res.status(400).json({
@@ -182,7 +214,7 @@ exports.getCoursesByCategory = (req, res) => {
             })
         }
         res.render('course/coursesByCategory', {
-            courses: courses.filter(course => course.category.alias == categoryName),
+            courses: courses.filter(course => course.category.alias == categoryName)
         })
     })
 }
@@ -246,3 +278,9 @@ exports.handleSearch = async (req, res) => {
     })
 }
 
+exports.renderCreateCourseForm = (req, res) => {
+    res.render('course/addCourseForm', {
+        fields: res.locals.fields,
+        successMessage: false
+    });
+}

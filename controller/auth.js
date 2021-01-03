@@ -43,16 +43,15 @@ exports.signin = (req, res) => {
         }
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
         res.cookie('t', token);
-        req.session.isAuth=true;
-        req.session.user=user;
-        const { _id, name, email, role } = user;
+        req.session.isAuth = true;
+        req.session.user = user;
         res.redirect('/');
     })
 }
 
 exports.signout = (req, res) => {
-    req.session.isAuth=false;
-    req.session.user=undefined;
+    req.session.isAuth = false;
+    req.session.user = undefined;
     res.redirect('/');
 }
 

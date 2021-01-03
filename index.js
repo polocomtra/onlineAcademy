@@ -16,11 +16,11 @@ const session = require('express-session');
 const { layoutMiddleWare } = require('./middlewares/layout')
 
 //routes
-const userRouter = require('./routes/auth')
+const authRouter = require('./routes/auth')
 const categoryRouter = require('./routes/category')
 const coreRouter = require('./routes/core.js')
 const courseRouter = require('./routes/course');
-const Course = require('./model/Course');
+const userRouter = require('./routes/user')
 const { getCoursesKind, getPagingInfo } = require('./controller/course');
 const PORT = process.env.PORT || 5000;
 
@@ -41,6 +41,7 @@ app.set('view engine', 'ejs');
 app.set('layout signup', false);
 app.set('layout signin', false);
 
+
 //middlewares
 app.use(session({
     secret: 'SECRET_KEY',
@@ -58,7 +59,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(layoutMiddleWare);
-app.use(getCoursesKind);
 app.use(getPagingInfo);
 app.set('trust proxy', 1) // trust first proxy
 
@@ -66,11 +66,11 @@ app.set('trust proxy', 1) // trust first proxy
 
 
 //routes
-app.use('/user', userRouter);
+app.use('/auth', authRouter);
 app.use('/', coreRouter);
 app.use('/course', courseRouter);
 app.use('/category', categoryRouter);
-
+app.use('/user', userRouter)
 
 
 //Start app

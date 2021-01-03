@@ -1,0 +1,130 @@
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Add Course</h4>
+                    <hr>
+                </div>
+            </div>
+            <% if(successMessage){ %>
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">
+                        <%= successMessage %>
+                    </h4>
+                </div>
+                <% } %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="POST" enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <label for="username" class="col-4 col-form-label">Name</label>
+                                    <div class="col-8">
+                                        <input id="username" name="name" class="form-control here" required="required"
+                                            type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="category" class="col-4 col-form-label">Category</label>
+                                    <div class="col-8">
+                                        <input id="category" name="category" class="form-control here"
+                                            required="required" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="photo" class="col-4 col-form-label">Photo</label>
+                                    <div class="col-8">
+                                        <input type="file" name="photo">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="price" class="col-4 col-form-label">Price</label>
+                                    <div class="col-8">
+                                        <input id="price" name="price" class="form-control here" type="number">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="description" class="col-4 col-form-label">Brief Description</label>
+                                    <div class="col-8">
+                                        <input id="description" name="description" class="form-control here"
+                                            type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="detailDes" class="col-4 col-form-label">Detail description</label>
+                                    <div class="col-8">
+                                        <textarea id="detailDes" name="detailDes" class="form-control here"></textarea>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div>
+                                    <h4 class="col-4" style="display: inline;">Content</h4>
+                                    <button style="display: inline;" type="button" name="addChapter" id="addChapter"
+                                        class="btn btn-warning" btn-lg btn-block>Add Chapter</button>
+                                </div>
+                                <div id="chapter"></div>
+                                <hr>
+                                <input type="text" name="lessonCount" id="lessonCount" style="display: none;">
+                                <input type="text" name="chapterCount" id="chapterCount" style="display: none;">
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button type="submit" class="btn btn-primary">Create Course</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+<script>
+    let chapterIndex = 1;
+    let lessonIndex = 1;
+    let lessonCount = 0;
+    let chapterCount = 0;
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+        toolbar_mode: 'floating',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+    });
+    let addChapterButton = document.getElementById('addChapter');
+    addChapterButton.onclick = function () {
+        lessonIndex = 1;
+        chapterCount++;
+        let currentChapterIndex = chapterIndex++;
+        document.getElementById('chapterCount').value = chapterCount;
+        document.getElementById('chapter').innerHTML += `<div class="form-group row">
+                            <div class="col-4 col-form-label">
+                                <label for="chapter${currentChapterIndex}">Chapter ${currentChapterIndex}</label>
+                                <button style="display: inline;" type="button" name="addLesson" id="addLessonForChapter${currentChapterIndex}" class="btn btn-info" btn-lg btn-block>Add Lesson</button>
+                            </div>
+                            <div class="col-8">
+                                <input id="chapter${currentChapterIndex}" name="chapter${currentChapterIndex}"
+                                    class="form-control here" placeholder="Chapter ${currentChapterIndex}" type="text">
+                                <div id="lessonForChapter${currentChapterIndex}"></div>
+                            </div>
+                        </div>`
+        let addLessonButton = document.getElementById(`addLessonForChapter${currentChapterIndex}`);
+        addLessonButton.onclick = function () {
+            lessonCount++;
+            let currentLessonIndex = lessonIndex++;
+            document.getElementById('lessonCount').value = lessonCount;
+            document.getElementById(`lessonForChapter${currentChapterIndex}`).innerHTML += `
+                                    <div>
+                                        <input class="form-control here mt-2" id="lesson${currentLessonIndex}ForChapter${currentChapterIndex}" name="lesson${currentLessonIndex}ForChapter${currentChapterIndex}"
+                                             placeholder="Lesson ${currentLessonIndex} for chapter ${currentChapterIndex}" type="text">
+                                        <input type="file" name="video">
+                                        <input id="lessonCountForChapter${currentChapterIndex}" name="lessonCountForChapter${currentChapterIndex}" style="display:none"></div>
+                                    </div>
+                                    `
+            document.getElementById(`lessonCountForChapter${currentChapterIndex}`).value = currentLessonIndex;
+        }
+
+    }
+
+
+
+</script>

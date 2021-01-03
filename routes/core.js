@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllCourses, getAllCoursesByPage, handleSearch } = require('../controller/course')
+const { getAllCourses, getAllCoursesByPage, handleSearch, getCoursesKind } = require('../controller/course')
 
 
-router.get('/', getAllCourses);
+router.get('/', getCoursesKind, getAllCourses);
 router.get('/courses', getAllCoursesByPage);
 router.get('/courses/search', handleSearch);
 

@@ -60,6 +60,9 @@
 
         });
     </script>
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/vwd3p1ep52odu6hslslg9qnxh8cr0xk7mqumk323lc62ccbg/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <!--CSS sương sương cho đẹp =))-->
     <style type="text/css">
         @media (min-width: 992px) {
@@ -125,20 +128,20 @@
                             <a class="nav-link dropdown-toggle" style="color: #fff !important;" href="#"
                                 data-toggle="dropdown">Categories</a>
                             <ul class="dropdown-menu">
-                                <% fields.forEach(function(field) { %>
+                                <% fields.forEach(field=> { %>
                                     <li>
                                         <a class="dropdown-item dropdown-toggle" href="category/<%=field.alias%>">
                                             <%=field.name%>
                                         </a>
                                         <ul class="submenu dropdown-menu">
-                                            <% categories.forEach(function(category) { %>
+                                            <% categories.forEach((category)=> { %>
                                                 <% if (category.field.equals(field._id)) { %>
                                                     <li><a class="dropdown-item"
                                                             href="/category/<%=field.alias%>/<%=category.alias%>">
                                                             <%=category.name%>
                                                         </a></li>
                                                     <% } %>
-                                             <% }) %>
+                                                        <% }) %>
                                         </ul>
                                     </li>
                                     <% }) %>
@@ -156,21 +159,29 @@
                             </div>
                         </form> -->
                         <% if(!isAuth){ %>
-                            <a class="nav-link" href="/user/signin">
+                            <a class="nav-link" href="/auth/signin">
                                 <i class="fa fa-sign-in" aria-hidden="true"></i>
                                 <span>Log in</span>
                             </a>
-                            <a class="nav-link" href="/user/signup">
+                            <a class="nav-link" href="/auth/signup">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i>
                                 <span>Sign up</span>
                             </a>
                             <%} %>
-                                <% if(isAuth){ %>
-                                    <a class="nav-link" href="/user/signout">
-                                        <i class="fa fa-user-plus" aria-hidden="true"></i>
-                                        <span>Sign out</span>
+                                <% if(user){ %>
+                                    <a class="nav-link" href="/user/profile/<%= user._id%>">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        <span>Welcome,
+                                            <%= user.name%>
+                                        </span>
                                     </a>
-                                    <%} %>
+                                    <% } %>
+                                        <% if(isAuth){ %>
+                                            <a class="nav-link" href="/auth/signout">
+                                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                                <span>Sign out</span>
+                                            </a>
+                                            <%} %>
                     </div>
                 </div>
             </nav>

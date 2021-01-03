@@ -10,10 +10,14 @@ exports.layoutMiddleWare = async (req, res, next) => {
     await Field.find().exec((err, fields) => {
         res.locals.fields = fields;
     })
-    if(typeof(req.session.isAuth)==='undefined'){
-        req.session.isAuth=false;
+    if (typeof (req.session.isAuth) === 'undefined') {
+        req.session.isAuth = false;
     }
-    res.locals.isAuth=req.session.isAuth;
-    res.locals.user=req.session.user;
+    if (typeof (req.session.user) === 'undefined') {
+        req.session.user = false;
+    }
+    res.locals.user = req.session.user;
+    res.locals.isAuth = req.session.isAuth;
+    res.locals.user = req.session.user;
     next()
 }
