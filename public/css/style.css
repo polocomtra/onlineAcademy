@@ -1051,3 +1051,11 @@ a:focus {
 .comment-widgets .comment-row:hover {
   background: rgba(0, 0, 0, 0.05)
 }
+
+/* Rating bar */
+.glyphicon { margin-right:5px;}
+.rating .glyphicon {font-size: 22px;}
+.rating-num { margin-top:0px;font-size: 54px; font-weight: 600; color: #ff9933;}
+.progress { margin-bottom: 5px; height: 30px; width: 500px;}
+.progress-bar { text-align: left; }
+.rating-desc .col-md-3 {padding-right: 0px;}
