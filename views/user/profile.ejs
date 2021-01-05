@@ -7,7 +7,7 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
           Add Course
         </a>
-        <a href="#" class="list-group-item list-group-item-action">
+        <a href="/user/courses/<%= user._id%>" class="list-group-item list-group-item-action">
           <i class="fa fa-bars" aria-hidden="true"></i>
           Your Courses
         </a>
@@ -21,10 +21,17 @@
               <h4>Your Profile</h4>
               <hr>
             </div>
+            <% if(successMessage){ %>
+              <div class="alert alert-success" role="alert">
+                <strong>
+                  <%= successMessage %> 
+                </strong>
+              </div>
+            <% } %> 
           </div>
           <div class="row">
             <div class="col-md-12">
-              <form>
+              <form method="POST">
                 <div class="form-group row">
                   <label for="username" class="col-4 col-form-label">User Name</label>
                   <div class="col-8">
@@ -61,18 +68,20 @@
                 <div class="form-group row">
                   <label for="publicinfo" class="col-4 col-form-label">Public Info</label>
                   <div class="col-8">
-                    <textarea id="publicinfo" name="publicinfo" cols="40" rows="4" class="form-control"></textarea>
+                    <textarea id="publicinfo" name="publicinfo" cols="40" rows="4" class="form-control">
+                      <%= user.about%>
+                    </textarea>
                   </div>
                 </div>
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                   <label for="newpass" class="col-4 col-form-label">New Password</label>
                   <div class="col-8">
-                    <input id="newpass" name="newpass" class="form-control here" type="text">
+                    <input id="newpass" name="newpass" class="form-control here" type="password">
                   </div>
-                </div>
+                </div> -->
                 <div class="form-group row">
                   <div class="offset-4 col-8">
-                    <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+                    <button type="submit" class="btn btn-primary">Update My Profile</button>
                   </div>
                 </div>
               </form>

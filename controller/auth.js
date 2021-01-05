@@ -45,7 +45,8 @@ exports.signin = (req, res) => {
         res.cookie('t', token);
         req.session.isAuth = true;
         req.session.user = user;
-        res.redirect('/');
+        let userId = user._id;
+        res.redirect(`/user/profile/${userId}`);
     })
 }
 

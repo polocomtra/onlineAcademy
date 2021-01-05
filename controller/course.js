@@ -7,10 +7,10 @@ const Category = require('../model/Category')
 const coursesPerPageNum = parseInt(process.env.COURSES_PER_PAGE);
 
 exports.createCourse = async (req, res) => {
-
     const teacher = res.locals.user._id;
     let categoryObjectId;
     let content = [];
+    let status = (req.body.status === 'true');
     //Handle content, doan xu li nay nhieu não vl
     let chapterCount = parseInt(req.body.chapterCount);
     for (let i = 1; i <= chapterCount; i++) {
@@ -52,7 +52,7 @@ exports.createCourse = async (req, res) => {
         }
         categoryObjectId = category._id;
         console.log(content)
-        const newCourse = { name, category: categoryObjectId, teacher, price, description, detailDes, content };
+        const newCourse = { status, name, category: categoryObjectId, teacher, price, description, detailDes, content };
         let course = new Course(newCourse);
         if (req.files.photo[0]) {
             course.photo.data = fs.readFileSync(req.files.photo[0].path);
@@ -70,6 +70,7 @@ exports.createCourse = async (req, res) => {
             })
         })
     })
+
 }
 
 exports.courseById = (req, res, next) => {
@@ -283,4 +284,70 @@ exports.renderCreateCourseForm = (req, res) => {
         fields: res.locals.fields,
         successMessage: false
     });
+}
+
+exports.renderCourseUpdateForm = (req, res) => {
+    Course.findOne({ _id: req.params.courseId }).populate('category').exec((err, course) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.render('course/courseUpdate', {
+            course: course,
+            successMessage: false
+        })
+    })
+}
+
+exports.updateCourse = async (req, res) => {
+    let content = [];
+    let status = (req.body.status === 'true');
+    //Handle content, doan xu li nay nhieu não vl
+    let chapterCount = parseInt(req.body.chapterCountUpdate);
+    //Neu khong thay doi thong tin gi
+    if (!chapterCount) {
+        res.render('course/courseUpdate')
+    }
+    for (let i = 1; i <= chapterCount; i++) {
+        let chapterSeries = {};
+        let lessonCountPerChapter = `lessonCountForChapter${i}`;
+        let chapterTitle = `chapter${i}`;
+        let lessonPerChapter = 0;
+        for (let item of Object.keys(req.body)) {
+            if (item == chapterTitle) {
+                chapterSeries.name = req.body[item];
+            }
+            if (item == lessonCountPerChapter) {
+                chapterSeries.chapter = [];
+                lessonPerChapter = +req.body[item];
+                for (let j = 1; j <= lessonPerChapter; j++) {
+                    let lessonTitle = `lesson${j}ForChapter${i}`;
+                    for (let title of Object.keys(req.body)) {
+                        if (title == lessonTitle) {
+                            chapterSeries.chapter.push({ lesson: req.body[title] });
+                        }
+                    }
+                }
+
+            }
+        }
+        content.push(chapterSeries);
+    }
+    const { name, price, description, detailDes } = req.body;
+    const updateInfo = { name, price, description, detailDes, content, status }
+    await Course.findByIdAndUpdate({ _id: req.params.courseId }, updateInfo, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.render('course/courseUpdate', {
+            course: result,
+            successMessage: 'Update course successfully'
+        })
+
+    })
 }
