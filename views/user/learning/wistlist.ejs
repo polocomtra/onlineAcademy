@@ -1,0 +1,24 @@
+<%- include('learning-layout'); -%>
+
+
+<div class="container mt-5">
+    <div class="row">
+        <% courses.forEach((course)=>{ %>
+            <div class="card col-sm-3 mr-5 mb-2" onclick="document.location='/course/<%= course._id%>'" style="cursor: pointer;" >
+                <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
+                    alt="<%= course.name %>">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= course.name %>
+                    </h5>
+                    <p class="card-text">
+                        <%= course.description %>
+                    </p>
+                    <p class="card-text">
+                        Teacher: <%= course.teacher.name %>
+                    </p>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+</div>

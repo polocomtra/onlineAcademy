@@ -3,14 +3,14 @@
     <div class="col-md-3 ">
       <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
-        <a href="/course/create" class="list-group-item list-group-item-action">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          Add Course
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <i class="fa fa-bars" aria-hidden="true"></i>
-          Your Courses
-        </a>
+          <a href="/course/create" class="list-group-item list-group-item-action">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Add Course
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+            Your Courses
+          </a>
       </div>
     </div>
     <div class="col-md-9">
@@ -38,17 +38,17 @@
                     <div class="col-8">
                       <p>Student</p>
                     </div>
-                    <%}%>
-                      <% if(user.role==2){ %>
-                        <div class="col-8">
-                          <p>Teacher</p>
-                        </div>
-                        <%}%>
-                          <% if(user.role==3){ %>
-                            <div class="col-8">
-                              <p>Admin</p>
-                            </div>
-                            <%}%>
+                  <%}%>
+                  <% if(user.role==2){ %>
+                    <div class="col-8">
+                      <p>Teacher</p>
+                    </div>
+                  <%}%>
+                  <% if(user.role==3){ %>
+                    <div class="col-8">
+                      <p>Admin</p>
+                    </div>
+                  <%}%>
                 </div>
 
                 <div class="form-group row">
@@ -78,7 +78,6 @@
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </div>
