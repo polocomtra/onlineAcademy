@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     //0: guest, 1: student, 2: teacher, 3: admin
     role: {
         type: Number,
-        default: 0
+        default: 1
     },
     history: {
         type: Array,

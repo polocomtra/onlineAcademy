@@ -1,0 +1,74 @@
+<div class="container mt-3">
+    <div class="row">
+      <div class="col-md-3 ">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action active">Management</a>
+            <a href="/user/admin/users" class="list-group-item list-group-item-action">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              Users
+            </a>
+            <a href="/user/admin/categories" class="list-group-item list-group-item-action">
+              <i class="fa fa-bars" aria-hidden="true"></i>
+              Categories
+            </a>
+            <a href="/user/admin/courses" class="list-group-item list-group-item-action">
+              <i class="fa fa-book" aria-hidden="true"></i>
+              Courses
+            </a>
+          </div>
+      </div>
+      <div class="col-md-9">
+          <div class="row">
+              <div class="col-12 mb-5">
+                <h3>List Users</h3>
+                <div class="text-right">
+                    <a href="/auth/signup">
+                        <button type="button" class="btn btn-success">Add User</button>
+                    </a>
+                </div>
+              </div>
+            
+            <br>
+            <% for(let i=0;i<users.length;i++){ %>
+                <div class="card" style="width: 18rem;">
+                    <% if(users[i].role==0){ %>
+                        <img class="card-img-top" src="/images/user.png"  alt="userIcon">
+                    <%} %> 
+                    <% if(users[i].role==1){ %>
+                        <img class="card-img-top" src="/images/user.png"  alt="userIcon">
+                    <%} %>
+                    <% if(users[i].role==2){ %>
+                        <img class="card-img-top" src="/images/teacher.png"  alt="userIcon">
+                    <%} %> 
+                    <% if(users[i].role==3){ %>
+                        <img class="card-img-top" src="/images/admin.png"  alt="userIcon">
+                    <%} %> 
+                    <div class="card-body">
+                      <h5 class="card-title">
+                          <%= users[i].name %> 
+                      </h5>
+                      <h6 class="card-text">
+                        <%= users[i].email %> 
+                    </h6>
+                      <p class="card-text">
+                          <% if(users[i].role==1){ %>
+                            Role: Student
+                          <%} %> 
+                          <% if(users[i].role==2){ %>
+                            Role: Teacher
+                          <%} %>
+                          <% if(users[i].role==3){ %>
+                            Role: Admin
+                          <%} %>
+                      </p>
+                      <% if(users[i].role==0||users[i].role==1 || users[i].role==2){ %>
+                        <a href="/user/admin/updateUser/<%= users[i]._id%>" class="btn btn-info">Update</a>
+                        <a href="/user/admin/deleteUser/<%= users[i]._id%>" class="btn btn-danger">Delete</a>
+                          <%} %>
+                    </div>
+                  </div>
+            <% } %>
+          </div>
+      </div>
+    </div>
+  </div>

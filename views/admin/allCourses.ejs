@@ -1,0 +1,53 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">Management</a>
+                <a href="/user/admin/users" class="list-group-item list-group-item-action">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Users
+                </a>
+                <a href="/user/admin/categories" class="list-group-item list-group-item-action">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                    Categories
+                </a>
+                <a href="/user/admin/courses" class="list-group-item list-group-item-action">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    Courses
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <% courses.forEach((course)=>{ %>
+                    <div class="card col-sm-3 mr-5 mb-2">
+                        <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
+                            alt="<%= course.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= course.name %>
+                            </h5>
+                            <p class="card-text">
+                                <i>
+                                    Category: <%= course.category.name %>
+                                </i>
+                            </p>
+                            <p class="card-text">
+                                <%= course.description %>
+                            </p>
+                            <p class="card-text">
+                                Teacher: <%= course.teacher.name %>
+                            </p>
+                            <p class="card-text">
+                                <i>
+                                    Price: <%= course.price %>
+                                </i>
+                            </p>
+                            <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+    </div>
+</div>

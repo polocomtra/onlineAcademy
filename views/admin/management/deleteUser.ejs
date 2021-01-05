@@ -1,0 +1,73 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">Management</a>
+                <a href="/user/admin/users" class="list-group-item list-group-item-action">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Users
+                </a>
+                <a href="/user/admin/categories" class="list-group-item list-group-item-action">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                    Categories
+                </a>
+                <a href="/user/admin/courses" class="list-group-item list-group-item-action">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    Courses
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <% if(successMessage){ %>
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">
+                        <%= successMessage %>
+                    </h4>
+                </div>
+                <% } %>
+                    <div class="row">
+                        <h2 class="col-12">
+                            Do you want to delete this user?
+                        </h2>
+                        <div class="col-md-12">
+                            <form method="POST">
+                                <div class="form-group row">
+                                    <label for="username" class="col-4 col-form-label">Name</label>
+                                    <div class="col-8">
+                                        <input id="username" name="name" value="<%= user.name%>"
+                                            class="form-control here" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-4 col-form-label">Email</label>
+                                    <div class="col-8">
+                                        <input id="email" name="email" value="<%= user.email%>"
+                                            class="form-control here" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="role" class="col-4 col-form-label">Role</label>
+                                    <div class="col-8">
+                                        <input id="role" name="role" class="form-control here" value="<%= user.role%>"
+                                            type="number">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="description" class="col-4 col-form-label">About</label>
+                                    <div class="col-8">
+                                        <input name="about" id="about" class="form-control here"
+                                            value="<%= user.about%>" readonly></input>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
