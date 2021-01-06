@@ -308,7 +308,9 @@ exports.updateCourse = async (req, res) => {
     let chapterCount = parseInt(req.body.chapterCountUpdate);
     //Neu khong thay doi thong tin gi
     if (!chapterCount) {
-        res.render('course/courseUpdate')
+        res.render('course/courseUpdate', {
+            successMessage: 'Cannot update.Chapter needed'
+        })
     }
     for (let i = 1; i <= chapterCount; i++) {
         let chapterSeries = {};
@@ -337,7 +339,8 @@ exports.updateCourse = async (req, res) => {
     }
     const { name, price, description, detailDes } = req.body;
     const updateInfo = { name, price, description, detailDes, content, status }
-    await Course.findByIdAndUpdate({ _id: req.params.courseId }, updateInfo, (err, result) => {
+    console.log(req.params.courseId);
+    await Course.findByIdAndUpdate(req.params.courseId, updateInfo, (err, result) => {
         if (err) {
             console.log(err);
             return res.status(400).json({
