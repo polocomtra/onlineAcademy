@@ -4,7 +4,8 @@ const router = express.Router();
 
 const { renderProfile, coursesByUser, updateProfile, isAdmin, getAllCoursesByAdmin,
     getAllCategoriesByAdmin, getAllUsersByAdmin, renderDeleteUserForm, renderUpdateUserForm,
-    updateUser, deleteUser, renderAddCategoryForm, addCategory } = require('../controller/user');
+    updateUser, deleteUser, renderAddCategoryForm, addCategory, renderUpdateCategoryForm, updateCategory,
+    renderDeleteCategoryForm, deleteCategory, findCourseExist, renderDeleteCourseForm, deleteCourse } = require('../controller/user');
 const { layoutMiddleWare } = require('../middlewares/layout');
 
 
@@ -12,15 +13,24 @@ const { layoutMiddleWare } = require('../middlewares/layout');
 router.get('/profile/:userId', layoutMiddleWare, renderProfile)
 router.post('/profile/:userId', updateProfile)
 router.get('/courses/:userId', coursesByUser)
-router.get('/admin/courses', getAllCoursesByAdmin)
-router.get('/admin/categories', getAllCategoriesByAdmin)
-router.get('/admin/users', getAllUsersByAdmin)
-router.get('/admin/addCategory', layoutMiddleWare, renderAddCategoryForm)
-router.post('/admin/addCategory', addCategory)
-router.get('/admin/updateUser/:userId', layoutMiddleWare, renderUpdateUserForm)
-router.get('/admin/deleteUser/:userId', layoutMiddleWare, renderDeleteUserForm)
+//lists all 
+router.get('/admin/courses', isAdmin, getAllCoursesByAdmin)
+router.get('/admin/categories', isAdmin, getAllCategoriesByAdmin)
+router.get('/admin/users', isAdmin, getAllUsersByAdmin)
+//user management (update + delete)
+router.get('/admin/updateUser/:userId', renderUpdateUserForm)
+router.get('/admin/deleteUser/:userId', renderDeleteUserForm)
 router.post('/admin/updateUser/:userId', updateUser)
 router.post('/admin/deleteUser/:userId', deleteUser)
-
+//category management (add+update+delete)
+router.get('/admin/addCategory', renderAddCategoryForm)
+router.post('/admin/addCategory', addCategory)
+router.get('/admin/updateCategory/:categoryId', renderUpdateCategoryForm)
+router.post('/admin/updateCategory/:categoryId', updateCategory);
+router.get('/admin/deleteCategory/:categoryId', renderDeleteCategoryForm)
+router.post('/admin/deleteCategory/:categoryId', findCourseExist, deleteCategory);
+//course category (delete)
+router.get('/admin/deleteCourse/:courseId', renderDeleteCourseForm)
+router.post('/admin/deleteCourse/:courseId', deleteCourse)
 
 module.exports = router;

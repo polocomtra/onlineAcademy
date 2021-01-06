@@ -60,6 +60,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(layoutMiddleWare);
+app.use(getCoursesKind);
 app.use(getPagingInfo);
 app.set('trust proxy', 1) // trust first proxy
 

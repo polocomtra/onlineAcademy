@@ -114,7 +114,7 @@ exports.renderUpdateUserForm = async (req, res) => {
                 error: err
             })
         }
-        res.render('admin/management/updateUser', {
+        res.render('admin/management/user/updateUser', {
             fields: res.locals.fields,
             user: result,
             successMessage: false
@@ -134,7 +134,7 @@ exports.updateUser = async (req, res) => {
                 error: err
             })
         }
-        res.render('admin/management/updateUser', {
+        res.render('admin/management/user/updateUser', {
             fields: res.locals.fields,
             user: result,
             successMessage: `Update user's info successfully`
@@ -150,7 +150,7 @@ exports.renderDeleteUserForm = async (req, res) => {
                 error: err
             })
         }
-        res.render('admin/management/deleteUser', {
+        res.render('admin/management/user/deleteUser', {
             fields: res.locals.fields,
             user: result,
             successMessage: false
@@ -171,7 +171,7 @@ exports.deleteUser = async (req, res) => {
 }
 
 exports.renderAddCategoryForm = (req, res) => {
-    res.render('admin/management/addCategory', {
+    res.render('admin/management/category/addCategory', {
         fields: res.locals.fields,
         successMessage: false
     })
@@ -196,10 +196,125 @@ exports.addCategory = async (req, res) => {
                     error: err
                 })
             }
-            res.render('admin/management/addCategory', {
+            res.render('admin/management/category/addCategory', {
                 fields: res.locals.fields,
                 successMessage: 'Create new category successfully'
             })
         })
+    })
+}
+
+exports.renderUpdateCategoryForm = async (req, res) => {
+    await Category.findOne({ _id: req.params.categoryId }).populate('field').exec((err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.render('admin/management/category/updateCategory', {
+            successMessage: false,
+            category: result
+        })
+    })
+}
+
+exports.updateCategory = async (req, res) => {
+    console.log(req.body);
+    const { field, fieldObjectId, category, alias } = req.body;
+    const updateInfo = { name: category, alias };
+    await Category.findByIdAndUpdate(req.params.categoryId, updateInfo, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.render('admin/management/category/updateCategory', {
+            successMessage: 'Update category successfully',
+            category: result
+        })
+    })
+}
+
+exports.renderDeleteCategoryForm = async (req, res) => {
+    await Category.findOne({ _id: req.params.categoryId }).populate('field').exec((err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.render('admin/management/category/deleteCategory', {
+            category: result,
+            courseExistMessage: false
+        })
+    })
+}
+
+exports.findCourseExist = async (req, res, next) => {
+    await Course.find({ category: req.params.categoryId }).exec((err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.locals.courseExist = result.length;
+        next();
+    })
+}
+
+exports.deleteCategory = async (req, res) => {
+
+    if (!res.locals.courseExist) {
+        await Category.findByIdAndDelete(req.params.categoryId, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.status(400).json({
+                    error: err
+                })
+            }
+            res.redirect('/user/admin/categories')
+        })
+    } else {
+        await Category.findOne({ _id: req.params.categoryId }).populate('field').exec((err, result) => {
+            if (err) {
+                console.log(err);
+                return res.status(400).json({
+                    error: err
+                })
+            }
+            res.render('admin/management/category/deleteCategory', {
+                category: result,
+                courseExistMessage: 'Sorry this category has courses!'
+            })
+        })
+    }
+}
+
+exports.renderDeleteCourseForm = async (req, res) => {
+    await Course.findOne({ _id: req.params.courseId }).populate('teacher').populate('category').exec((err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.render('admin/management/course/deleteCourse', {
+            course: result,
+        })
+    })
+}
+
+exports.deleteCourse = async (req, res) => {
+    await Course.findByIdAndDelete(req.params.courseId, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.redirect('/user/admin/courses')
     })
 }

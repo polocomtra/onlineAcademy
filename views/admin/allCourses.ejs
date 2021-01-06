@@ -20,7 +20,7 @@
         <div class="col-md-9">
             <div class="row">
                 <% courses.forEach((course)=>{ %>
-                    <div class="card col-sm-3 mr-5 mb-2">
+                    <div class="card col-sm-4 mb-2 h-100">
                         <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
                             alt="<%= course.name %>">
                         <div class="card-body">
@@ -33,17 +33,10 @@
                                 </i>
                             </p>
                             <p class="card-text">
-                                <%= course.description %>
-                            </p>
-                            <p class="card-text">
                                 Teacher: <%= course.teacher.name %>
                             </p>
-                            <p class="card-text">
-                                <i>
-                                    Price: <%= course.price %>
-                                </i>
-                            </p>
                             <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                            <a href="/user/admin/deleteCourse/<%= course._id%>" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
                     <% }) %>
