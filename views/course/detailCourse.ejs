@@ -38,8 +38,39 @@
                     <% var fiveStarRate = Math.round((fiveStar*100/ course.reviews.length)*10)/10 %>
                     <% var point = Math.round(ratePoint/ course.reviews.length * 100) / 100 %>
                     Last updated: <%= course.updatedAt %>
-                </small>
+                </small>               
             </div>
+            <%if (user) {%>
+                <% if (WistList == true) { %>
+                    <a href="<%=course._id%>/removefromWistList">
+                        <button class="btn btn-outline-light" data-mdb-ripple-color="dark">
+                            <i class="fa fa-heart" aria-hidden="true"></i>  WistListed
+                        </button>
+                    </a> 
+                <%} else { %>
+                    <a href="<%=course._id%>/addtoWistList">
+                        <button class="btn btn-outline-light" data-mdb-ripple-color="dark">
+                            <i class="fa fa-heart-o" aria-hidden="true"></i>  WistList
+                        </button>
+                    </a>
+                <% } %>  
+                
+                <% if (MyCourse == true) { %>
+                    <a href="<%=course._id%>/learn/<%= course.content[0].chapter[0]._id %>">
+                        <button class="btn btn-outline-success" data-mdb-ripple-color="dark">
+                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>  Go to Course
+                        </button>
+                    </a> 
+                <%} else { %>
+                    <a href="<%=course._id%>/buyCourse">
+                        <button class="btn btn-outline-success" data-mdb-ripple-color="dark">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>  Buy & Go to Course
+                        </button>
+                    </a>
+                <% } %>  
+
+            <%}%>
+            
         </div>
         <img src="http://localhost:5000/course/photo/<%= course._id%>" class="col-sm-3" alt="<%= course.name%>">
     </div>
@@ -47,32 +78,38 @@
         <div class="content mt-5 ">
             <h2>Content</h2>
             <div class="comment-widgets" id="accordionExample">
-              <% var count=0 %>
-              <% course.content.forEach(function(contents) { %>
-                <% count++ %>
-                <div class="comment-widgets">
-                  <div class="card-header" id="heading<%=count%>">
-                    <h5 class="mb-0">
-                      <button style="width: 100%; text-align: left;" class="btn collapsed" type="button" data-toggle="collapse" data-target="#collapse<%=count%>" aria-expanded="false" aria-controls="collapse<%=count%>">
-                        <i class="fa fa-chevron-down" aria-hidden="true"></i>  Chapter <%=count%>: <%=contents.name%>
-                      </button>
-                    </h5>
-                  </div>
-                  
-                  <div id="collapse<%=count%>" class="collapse" aria-labelledby="headin<%=count%>" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <% contents.chapter.forEach(function(chapter) { %>
-                      <a href="">
-                        <i class="fa fa-play-circle" aria-hidden="true"></i>  <%=chapter.lesson%>
-                      </a>
-                      <br></br>
-                      <% }) %>
+                <% var count=0 %>
+                <% course.content.forEach(function(contents) { %>
+                  <% count++ %>
+                  <div class="comment-widgets">
+                    <div class="card-header" id="heading<%=count%>">
+                      <h5 class="mb-0">
+                        <button style="width: 100%; text-align: left;" class="btn collapsed" type="button" data-toggle="collapse" data-target="#collapse<%=count%>" aria-expanded="false" aria-controls="collapse<%=count%>">
+                          <i class="fa fa-chevron-down" aria-hidden="true"></i>  Chapter <%=count%>: <%=contents.name%>
+                        </button>
+                      </h5>
                     </div>
+                    
+                    <div id="collapse<%=count%>" class="collapse" aria-labelledby="headin<%=count%>" data-parent="#accordionExample">
+                      <div class="card-body">
+                        <% var lessonCount = 0 %>
+                        <% contents.chapter.forEach(function(chapter) { %>
+                        <% if(lessonCount===0){ %>
+                            <a href="">
+                                <i class="fa fa-play-circle" aria-hidden="true"></i>   <%=chapter.lesson%>
+                            </a> 
+                        <%} else {%>
+                            <i class="fa fa-play-circle" aria-hidden="true"></i>   <%=chapter.lesson%>
+                        <%}%>
+                        <br></br>
+                        <% lessonCount++ %>
+                        <% }) %>
+                      </div>
+                    </div>
+                    
                   </div>
-                  
+                  <% }) %>
                 </div>
-                <% }) %>
-              </div>
         </div>
         <div class="detailDescription mt-5">
             <h2>Description:</h2>
@@ -254,13 +291,12 @@
             </h2>
             <a>
                 <p>a paragraph</p>
+                <%= course.content[0].chapter[0] %>
             </a>
         </div>
         
     </div>
 </div>
-
-
 
 
 

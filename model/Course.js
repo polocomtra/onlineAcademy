@@ -70,6 +70,7 @@ const courseSchema = new mongoose.Schema({
                 require:true
             },
             chapter: [
+
                 {
                     lesson: {
                         type: String,

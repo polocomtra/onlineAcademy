@@ -1,0 +1,89 @@
+<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+  <%if(user){%>
+    <%if(isBought){%>
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="comment-widgets" id="accordionExample">
+              <% var Counting = 0 %>
+              <% var letCount = 0 %> 
+              <% var count=0 %>
+              <% var name %>
+              <% course.content.forEach(function(contents) { %>
+                <% count++ %>
+                <div class="comment-widgets">
+                  <div class="card-header" id="heading<%=count%>">
+                    <h5 class="mb-0">
+                      <button style="width: 100%; text-align: left;" class="btn collapsed" type="button" data-toggle="collapse" data-target="#collapse<%=count%>" aria-expanded="false" aria-controls="collapse<%=count%>">
+                        <i class="fa fa-chevron-down" aria-hidden="true"></i>  Chapter <%=count%>: <%=contents.name%>
+                      </button>
+                    </h5>
+                  </div>
+                  
+                  <div id="collapse<%=count%>" class="collapse" aria-labelledby="headin<%=count%>" data-parent="#accordionExample">
+                    <div class="card-body">
+                      <% var lessonCount = 0 %>
+                      <% contents.chapter.forEach(function(chapter) { %>
+                      <%Counting++%>
+                      <a href="/course/<%=course._id%>/learn/<%= course.content[count-1].chapter[lessonCount]._id %>">
+                        <i class="fa fa-play-circle" aria-hidden="true"></i>  <%=chapter.lesson%>
+                      </a>
+                      <br></br>
+                      <% if(lessonID == chapter._id){ %> 
+                        <%letCount = Counting %>
+                        <% name = chapter.lesson %>
+                      <% } %>
+                      <%lessonCount++ %>
+                      <% }) %>
+                    </div>
+                  </div>
+                  
+                </div>
+                <% }) %>
+              </div>
+        </div>
+        <div class="col-md-7">
+          <h3 style="text-align: center; font-weight: 700;"><%=name%></h3>
+          <%if(letCount%5==1){%>
+            <video id="my-video" class="video-js" autoplay controls preload="auto" data-setup='' loop>
+              <source id="videoSource" src="/videos/1. Introduction to the course.mp4" type='video/mp4'>
+            </video>
+          <%}%>
+          <%if(letCount%5==2){%>
+            <video id="my-video" class="video-js" autoplay controls preload="auto" data-setup='' loop>
+              <source id="videoSource" src="/videos/1. What is node js.mp4" type='video/mp4'>
+            </video>
+          <%}%>
+          <%if(letCount%5==3){%>
+            <video id="my-video" class="video-js" autoplay controls preload="auto" data-setup='' loop>
+              <source id="videoSource" src="/videos/2. Installing node js on your machine.mp4" type='video/mp4'>
+            </video>
+          <%}%>
+          <%if(letCount%5==4){%>
+            <video id="my-video" class="video-js" autoplay controls preload="auto" data-setup='' loop>
+              <source id="videoSource" src="/videos/2. Why learn node js.mp4" type='video/mp4'>
+            </video>
+          <%}%>
+          <%if(letCount%5==0){%>
+            <video id="my-video" class="video-js" autoplay controls preload="auto" data-setup='' loop>
+              <source id="videoSource" src="/videos/3. Installing node js.mp4" type='video/mp4'>
+            </video>
+          <%}%>
+        </div>
+      </div>
+      <%} else {%>
+        <h2 style="text-align: center; font-weight: 700;">Please Buy to learn this Course</h2>
+        <a href="/course/<%=course._id%>" >
+          <h4 style="text-align: center;">Go to Course Page</h4>
+        </a>
+        <% } %>
+        
+  <%} else {%>
+    <h2 style="text-align: center; font-weight: 700;">Please Login to Your Account</h2>
+    <a href="/auth/signin" >
+      <h4 style="text-align: center;">Login</h4>
+    </a>
+  <%}%>
+  
+
+

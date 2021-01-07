@@ -1,4 +1,5 @@
 const Course = require('../model/Course')
+const User = require('../model/User')
 const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
@@ -81,6 +82,20 @@ exports.courseById = (req, res, next) => {
             })
         }
         req.course = course
+        next();
+    })
+
+}
+
+exports.lessonById = (req, res, next) => {
+    const id = req.params.lessonId;
+    Course.findById({_id: req.course._id}).select({}).exec((err, lesson) => {
+        if (err || !lesson) {
+            return res.status(400).json({
+                error: "Product not found"
+            })
+        }
+        req.lesson = lesson
         next();
     })
 
@@ -183,6 +198,58 @@ exports.getAllCoursesByPage = (req, res) => {
 }
 
 exports.getCourseById = async (req, res) => {
+    //IsMyCourse
+    if(req.session.user!=false)
+    {
+        var student = [];
+        var length = req.course.students.length;
+        for(var i=0;i<length;i++)
+        {
+            student[i] = req.course.students[i].student;
+        }
+        var isMyCourse = false;
+        User.find({$and: [{_id : {"$in": student }}, {_id : req.session.user._id}]}).exec((err, users) => {
+            if (err) {
+                console.log(err)
+            }         
+            if(users.length < 1)
+            {
+                isMyCourse = false;
+            }
+            else
+            {
+                isMyCourse = true;
+            }
+            console.log(isMyCourse);
+        })
+        
+    }
+     //IsWistList
+     if(req.session.user != false)
+     {
+        var length = req.session.user.wistlist.length;
+        var wistlist =[];
+        for(var i = 0 ;i < length; i++)
+        {
+            wistlist[i] = req.session.user.wistlist[i].course
+        }
+        var isWistList = false;
+        Course.find({$and: [{_id : { "$in": wistlist }}, {_id : req.course._id}]}).exec((err, course) => {
+            if (err) {
+                console.log(err)
+            } 
+            console.log(course.length);        
+            if(course.length < 1)
+            {
+                isWistList = false;
+            }
+            else
+            {
+                isWistList = true;
+            }
+        })
+     }
+
     req.course.photo = undefined;
     let { view } = req.course;
     let update = { view: view + 1 };
@@ -192,9 +259,12 @@ exports.getCourseById = async (req, res) => {
             console.log(err)
         }
         res.render('course/detailCourse', {
-            course: course
+            course: course,
+            WistList: isWistList,
+            MyCourse: isMyCourse
         })
     })
+   
 }
 
 exports.getCoursePhoto = (req, res, next) => {
@@ -283,4 +353,112 @@ exports.renderCreateCourseForm = (req, res) => {
         fields: res.locals.fields,
         successMessage: false
     });
+}
+
+exports.addWistlist = async (req, res) => {
+    let path = req.course._id;
+    let wistlist = []
+    wistlist = req.session.user.wistlist
+    wistlist.push({ course: path})
+    const updateInfo = {wistlist}
+    await User.findByIdAndUpdate(req.session.user._id, updateInfo, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.redirect('/course/'+path);
+    })
+    
+}
+
+exports.removeWistlist = async (req, res) => {
+    let path = req.course._id;
+    let wistlist = []
+    wistlist = req.session.user.wistlist
+    for(var i=0;i<wistlist.length;i++)
+    {
+        console.log(wistlist[i].course);
+        console.log(path);
+        console.log(wistlist[i].course == path);
+        console.log(wistlist[i].course - path);
+        if(wistlist[i].course == path)
+        {
+            if (i > -1) {
+                wistlist.splice(i, 1);
+            }
+        }
+    }
+    console.log(wistlist);
+    const updateInfo = {wistlist}
+    await User.findByIdAndUpdate(req.session.user._id, updateInfo, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.redirect('/course/'+path);
+    })
+    
+}
+
+exports.buyCourse = async (req, res) => {
+    let path = req.course._id;
+    let myID = req.session.user._id
+    let students = []
+    students = req.course.students;
+    students.push({student: myID})
+    console.log(students);
+    const updateInfo = {students}
+    await Course.findByIdAndUpdate(req.course._id, updateInfo, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.redirect('/course/'+path);
+    })
+    
+}
+
+exports.renderLearnCourse = async (req, res) => {
+    let { view } = req.course;
+    let update = { view: view + 1 };
+    let students = []
+    length = req.course.students.length;
+    console.log(length);
+    for(var i=0;i<length;i++)
+    {
+        students[i] = req.course.students[i].student;
+    }
+    console.log(students);
+    var isBought = false;
+    User.find({$and: [{_id : {"$in": students }}, {_id : req.session.user._id}]}).exec((err, users) => {
+        if (err) {
+            console.log(err)
+        }         
+        if(users.length < 1)
+        {
+            isBought = false;
+        }
+        else
+        {
+            isBought = true;
+        }
+        console.log(isBought);
+    })    
+    await Course.findByIdAndUpdate({ _id: req.course._id }, update, { new: true })
+    Course.findOne({ _id: req.course._id }).exec((err, course) => {
+        if (err) {
+            console.log(err)
+        }
+        res.render('course/learnCourse', {
+            course: course,
+            isBought: isBought,
+            lessonID: req.params.lessonId
+        })
+    })
 }
