@@ -3,7 +3,8 @@ const router = express.Router();
 const multer = require('multer');
 
 const { createCourse, courseById, getCourseById, getCoursePhoto, handleSearch, renderCreateCourseForm, renderCourseUpdateForm, updateCourse,
-    lessonById, addWistlist,removeWistlist, buyCourse, renderLearnCourse} = require('../controller/course');
+    lessonById, addWistlist, removeWistlist, buyCourse, renderLearnCourse, calculateSearchPagingInfo, latestCoursesForSearch, 
+    getCourseCategory, CoursesCategory } = require('../controller/course');
 const { isPro } = require('../controller/user');
 const { layoutMiddleWare } = require('../middlewares/layout');
 
@@ -21,11 +22,11 @@ router.post('/create', upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'v
 router.get('/create', isPro, layoutMiddleWare, renderCreateCourseForm)
 router.get('/update/:courseId', isPro, renderCourseUpdateForm)
 router.post('/update/:courseId', upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'video', maxCount: 10 }]), updateCourse)
-router.get('/:courseId', getCourseById)
+router.get('/:courseId', getCourseCategory, CoursesCategory, getCourseById)
 
 
 router.get('/photo/:courseId', getCoursePhoto)
-router.post('/search', handleSearch)
+router.post('/search', calculateSearchPagingInfo, latestCoursesForSearch, handleSearch)
 router.get('/:courseId/learn/:lessonId', renderLearnCourse)
 router.get('/:courseId/addtoWistList', addWistlist)
 router.get('/:courseId/removefromWistList', removeWistlist)

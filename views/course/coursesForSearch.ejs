@@ -1,47 +1,92 @@
 <div class="container mt-5">
-    <div class="row">
-        <% courses.forEach((course)=>{ %>
-            <div class="card col-sm-3 mr-5 mb-2">
-                <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
-                    alt="<%= course.name %>">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <%= course.name %>
-                    </h5>
-                    <p class="card-text">
-                        <i>
-                            Category: <%= course.category.name %>
-                        </i>
-                    </p>
-                    <p class="card-text">
-                        <%= course.description %>
-                    </p>
-                    <p class="card-text">
-                        Teacher: <%= course.teacher.name %>
-                    </p>
-                    <p class="card-text">
-                        <i>
-                            Price: <%= course.price %>
-                        </i>
-                    </p>
-                    <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
-                </div>
+    <% let pages=total % coursesPerPage==0 ? total / coursesPerPage : Math.floor(total % coursesPerPage) +1; %>
+
+
+        <% if(courses.length!=0){ %>
+            <div class="row">
+                <% courses.forEach((course)=>{ %>
+                    <div class="card col-sm-3 mr-5 mb-2">
+                        <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
+                            alt="<%= course.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= course.name %>
+                            </h5>
+                            <p class="card-text">
+                                <%= course.description %>
+                            </p>
+                            <p class="card-text">
+                                Teacher: <%= course.teacher.name %>
+                            </p>
+                            <p class="card-text">
+                                <i>
+                                    Price: <%= course.price %>
+                                </i>
+                            </p>
+                            <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <div class="jumbotron">
+                            <h4>Latest Courses:</h4>
+                            <div class="row mt-5">
+                                <% latestCoursesForSearch.forEach((course)=>{ %>
+                                    <div class="card col-sm-3 mr-5 mb-2">
+                                        <img class="card-img-top"
+                                            src="http://localhost:5000/course/photo/<%= course._id%>"
+                                            alt="<%= course.name %>">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <%= course.name %>
+                                            </h5>
+                                            <p class="card-text">
+                                                <%= course.description %>
+                                            </p>
+                                            <p class="card-text">
+                                                Teacher: <%= course.teacher.name %>
+                                            </p>
+                                            <p class="card-text">
+                                                <i>
+                                                    Price: <%= course.price %>
+                                                </i>
+                                            </p>
+                                            <a href="/course/<%= course._id%>" class="btn btn-primary">Detail</a>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+
+
+                        </div>
+
             </div>
-            <% }) %>
-    </div>
-    <div class="paging-button text-center">
-        <% if(pages.length>1){ %>
-            <a href="/courses/search?q=<%=query %>&p=1">
-                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-            </a>
-            <% pages.forEach(page=>{ %>
-                <a href="/courses/search?q=<%=query %>&p=<%= page.value%>">
-                    <%= page.value %>
-                </a>
-                <% }) %>
-                    <a href="/courses/search?q=<%=query %>&p=<%= pages.length%>">
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <div class="paging-button text-center">
+                <% if(pages>1){ %>
+                    <a href="/courses/search?q=<%=query %>&p=1&price=1&view=0">
+                        <button type="button" class="btn btn-info">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                        </button>
                     </a>
-                    <%} %>
-    </div>
+                    <% for(let i=1;i<=pages;i++){ %>
+                        <a href="/courses/search?q=<%=query %>&p=<%= i%>&price=1&view=0">
+                            <button type="button" class="btn btn-info">
+                                <%= i %>
+                            </button>
+                        </a>
+                        <%} %>
+                            <a href="/courses/search?q=<%=query %>&p=<%= pages%>&price=1&view=0">
+                                <button type="button" class="btn btn-info">
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </button>
+                            </a>
+                            <%} %>
+            </div>
+            <%}else{ %>
+                <div class="row ml-5">
+                    <h2>No courses match the keyword</h2>
+                </div>
+                <%} %>
 </div>
+<script>
+
+</script>

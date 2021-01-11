@@ -76,7 +76,7 @@
                                             <% categories.forEach((category)=> { %>
                                                 <% if (category.field.equals(field._id)) { %>
                                                     <li><a class="dropdown-item"
-                                                            href="/category/<%=field.alias%>/<%=category.alias%>">
+                                                            href="/category/<%=field.alias%>/<%=category.alias%>/?p=1">
                                                             <%=category.name%>
                                                         </a></li>
                                                     <% } %>
@@ -108,7 +108,7 @@
                             </a>
                             <%} %>
                                 <% if(user){ %>
-                                    <a class="nav-link" href="/user/learning/all-courses" >
+                                    <a class="nav-link" href="/user/learning/all-courses">
                                         <i class="fa fa-leanpub" aria-hidden="true"></i>
                                         <span>
                                             My Learning

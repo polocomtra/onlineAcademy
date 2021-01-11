@@ -3,9 +3,6 @@ const Category = require("../model/Category");
 const Course = require("../model/Course");
 const Field = require("../model/Field");
 const User = require("../model/User");
-
-const User = require('../model/User')
-const Course = require('../model/Course')
 const _ = require('lodash');
 const { stubArray } = require('lodash');
 
@@ -259,7 +256,7 @@ exports.renderDeleteCategoryForm = async (req, res) => {
         })
     })
 }
-exports.renderAllCourses =  (req, res) => {
+exports.renderAllCourses = (req, res) => {
     var courseNum;
     var studentClass = [];
     var myCourse = [];
@@ -270,33 +267,29 @@ exports.renderAllCourses =  (req, res) => {
             })
         }
         courseNum = courses.length
-        for(var i=0;i<courseNum;i++)
-        {
-           var studentlength = courses[i].students.length;
-           var studentArray = [];
-           for(var j = 0; j<studentlength;j++)
-           {
-               studentArray[j] = courses[i].students[j].student;
-           }
-           studentClass[i] = studentArray;
+        for (var i = 0; i < courseNum; i++) {
+            var studentlength = courses[i].students.length;
+            var studentArray = [];
+            for (var j = 0; j < studentlength; j++) {
+                studentArray[j] = courses[i].students[j].student;
+            }
+            studentClass[i] = studentArray;
         }
         var index = 0;
-        for(var k = 0;k<courseNum;k++)
-        {
-            User.find({$and: [{_id : { "$in": studentClass[k] }}, {_id : res.locals.user._id}]}).exec((err, user) => {
-                
+        for (var k = 0; k < courseNum; k++) {
+            User.find({ $and: [{ _id: { "$in": studentClass[k] } }, { _id: res.locals.user._id }] }).exec((err, user) => {
+
                 if (err) {
                     console.log(err)
-                } 
-                else{
+                }
+                else {
                     console.log(index);
-                     
-                    if(user.length>0)
-                    {
+
+                    if (user.length > 0) {
                         console.log(index);
                         myCourse[i] = courses[i]
-                    
-                    }  
+
+                    }
                 }
                 index++;
 
@@ -316,17 +309,16 @@ exports.renderCollection = (req, res) => {
 
 exports.renderWistlist = (req, res) => {
     var length = res.locals.user.wistlist.length;
-    var wistlist =[];
-    for(var i = 0 ;i < length; i++)
-    {
+    var wistlist = [];
+    for (var i = 0; i < length; i++) {
         wistlist[i] = res.locals.user.wistlist[i].course;
     }
-    Course.find({_id : { "$in": wistlist }}).exec((err, course) => {
+    Course.find({ _id: { "$in": wistlist } }).exec((err, course) => {
         if (err) {
             console.log(err)
-        }            
+        }
         res.render('user/learning/wistlist', {
-            courses: course 
+            courses: course
 
         })
     })

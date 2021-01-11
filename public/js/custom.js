@@ -83,9 +83,10 @@ $('.course-carousel').owlCarousel({
 })
 
 //Home search
+//1: ascending; 0:descending
 $('#search-form').submit(function () {
     let query = document.getElementById('searchBar').value;
-    document.getElementById('search-form').action = `/course/search?q=${query}&p=1`;
+    document.getElementById('search-form').action = `/course/search?q=${query}&p=1&price=1&view=0`;
 })
 
 
