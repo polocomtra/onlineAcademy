@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const { v4: uuidv4 } = require('uuid') //version 4: random
 const cryptoJs = require('crypto-js');
+const { ObjectId } = mongoose.Schema
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -32,7 +33,16 @@ const userSchema = new mongoose.Schema({
     history: {
         type: Array,
         default: []
-    }
+    },
+    wistlist: [
+        {
+            course: {
+                type: ObjectId,
+                ref: "Course",
+                required: true
+            }
+        }
+    ]
 }, { timestamps: true })
 
 userSchema.virtual('password')

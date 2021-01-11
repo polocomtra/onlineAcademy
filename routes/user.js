@@ -7,10 +7,15 @@ const { renderProfile, coursesByUser, updateProfile, isAdmin, getAllCoursesByAdm
     updateUser, deleteUser, renderAddCategoryForm, addCategory, renderUpdateCategoryForm, updateCategory,
     renderDeleteCategoryForm, deleteCategory, findCourseExist, renderDeleteCourseForm, deleteCourse } = require('../controller/user');
 const { layoutMiddleWare } = require('../middlewares/layout');
+const { renderAllCourses } = require('../controller/user');
+const { renderCollection } = require('../controller/user');
+const { renderWistlist } = require('../controller/user');
+const { renderArchived } = require('../controller/user');
 
 
 
 router.get('/profile/:userId', layoutMiddleWare, renderProfile)
+
 router.post('/profile/:userId', updateProfile)
 router.get('/courses/:userId', coursesByUser)
 //lists all 
@@ -32,5 +37,11 @@ router.post('/admin/deleteCategory/:categoryId', findCourseExist, deleteCategory
 //course category (delete)
 router.get('/admin/deleteCourse/:courseId', renderDeleteCourseForm)
 router.post('/admin/deleteCourse/:courseId', deleteCourse)
+
+
+router.get('/learning/all-courses', layoutMiddleWare, renderAllCourses)
+router.get('/learning/collection', layoutMiddleWare, renderCollection)
+router.get('/learning/wistlist', layoutMiddleWare, renderWistlist)
+router.get('/learning/archived', layoutMiddleWare, renderArchived)
 
 module.exports = router;
