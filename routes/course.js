@@ -1,10 +1,13 @@
 const express = require('express')
 const router = express.Router();
 const multer = require('multer');
+var bodyParser = require('body-parser');
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const { createCourse, courseById, getCourseById, getCoursePhoto, handleSearch, renderCreateCourseForm, renderCourseUpdateForm, updateCourse,
     lessonById, addWistlist, removeWistlist, buyCourse, renderLearnCourse, calculateSearchPagingInfo, latestCoursesForSearch, 
-    getCourseCategory, CoursesCategory } = require('../controller/course');
+    getCourseCategory, CoursesCategory, addComment, AliasById } = require('../controller/course');
 const { isPro } = require('../controller/user');
 const { layoutMiddleWare } = require('../middlewares/layout');
 
@@ -31,7 +34,7 @@ router.get('/:courseId/learn/:lessonId', renderLearnCourse)
 router.get('/:courseId/addtoWistList', addWistlist)
 router.get('/:courseId/removefromWistList', removeWistlist)
 router.get('/:courseId/buyCourse', buyCourse)
-
+router.post('/:courseID',urlencodedParser, addComment)
 
 router.param('courseId', courseById)
 router.param('lessonId', lessonById)

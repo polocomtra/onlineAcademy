@@ -287,9 +287,34 @@
                         </div> 
                         <% }) %>
                         <% var max = 3; %>
-                        
 
+                        <%if (user) {%>
+                            
+                            
+                            <% if (MyCourse == true) { %>
+                                <form method="POST" enctype="multipart/form-data">
+                                    <div class="bg-light p-2 comment-widgets ">
+                                        <div class="rating form-group"> 
+                                            <input class="form-control here"  type="radio" id="rating" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-start form-group"><img class="rounded-circle" src="https://clipartart.com/images/login-background-images-clipart.jpg" width="40">
+                                            <input id="username" name="name" class="form-control here" required="required"
+                                            type="text">
+                                        </div>
+                                        <div class="mt-2 text-right">
+                                            <button class="btn btn-primary btn-sm shadow-none comment-widgets" type="submit">
+                                                Post comment
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                </form>
+                            <%} %>
+                        <%}%>
+                        
+                        
                     </div>
+                    
                 </div>
             </div>
         </div>

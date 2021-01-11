@@ -99,8 +99,8 @@ exports.lessonById = (req, res, next) => {
         req.lesson = lesson
         next();
     })
-
 }
+
 
 exports.getCoursesKind = async (req, res, next) => {
     //All
@@ -574,4 +574,13 @@ exports.renderLearnCourse = async (req, res) => {
             lessonID: req.params.lessonId
         })
     })
+}
+
+
+
+//Bình luận
+
+
+exports.addComment = async (req, res) => {
+    console.log(req.body.name);
 }

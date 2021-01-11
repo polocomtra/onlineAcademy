@@ -271,30 +271,28 @@ exports.renderAllCourses = (req, res) => {
             var studentlength = courses[i].students.length;
             var studentArray = [];
             for (var j = 0; j < studentlength; j++) {
-                studentArray[j] = courses[i].students[j].student;
+                studentArray[j] = courses[i].students[j].students;
             }
             studentClass[i] = studentArray;
         }
+        console.log(studentClass);
         var index = 0;
         for (var k = 0; k < courseNum; k++) {
-            User.find({ $and: [{ _id: { "$in": studentClass[k] } }, { _id: res.locals.user._id }] }).exec((err, user) => {
+            User.find({ $and: [{ _id: { "$in": courses.students.student } }, { _id: res.locals.user._id }] }).exec((err, user) => {
 
                 if (err) {
                     console.log(err)
                 }
                 else {
-                    console.log(index);
-
                     if (user.length > 0) {
-                        console.log(index);
-                        myCourse[i] = courses[i]
-
+                        myCourse.push(courses[i]);
                     }
                 }
                 index++;
 
             })
         }
+        console.log(myCourse);
     })
     res.render('user/learning/all-courses', {
         user: res.locals.user
@@ -397,3 +395,4 @@ exports.renderArchived = (req, res) => {
         user: res.locals.user
     });
 }
+
