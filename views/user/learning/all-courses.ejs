@@ -4,7 +4,7 @@
 <div class="container mt-5">
     <div class="row">
         <% courses.forEach((course)=>{ %>
-            <div class="card col-sm-3 mr-5 mb-2 comment-widgets" onclick="document.location='/course/<%= course._id%>'" style="cursor: pointer;" >
+            <div class="card col-sm-3 mr-5 mb-2 comment-widgets" onclick="document.location='/course/<%= course._id%>/learn/<%= course.content[0].chapter[0]._id %>'" style="cursor: pointer;" >
                 <img class="card-img-top" src="http://localhost:5000/course/photo/<%= course._id%>"
                     alt="<%= course.name %>">
                 <div class="card-body">
@@ -12,10 +12,10 @@
                         <%= course.name %>
                     </h5>
                     <p class="card-text">
-                        <%= course.description %>
+                        <i><%= course.description %></i>
                     </p>
                     <button type="button" class="btn btn-outline-success" data-mdb-ripple-color="dark" style="font-size : 20px;">
-                    <i class="fa fa-dollar"></i><%= course.price %>
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>  Go to Course
                     </button>
                 </div>
             </div>

@@ -257,8 +257,6 @@ exports.renderDeleteCategoryForm = async (req, res) => {
     })
 }
 exports.renderAllCourses = (req, res) => {
-    var courseNum;
-    var studentClass = [];
     var myCourse = [];
     Course.find().exec((err, courses) => {
         if (err) {
@@ -288,10 +286,13 @@ exports.renderCollection = (req, res) => {
 }
 
 exports.renderWistlist = (req, res) => {
-    var length = res.locals.user.wistlist.length;
     var wistlist = [];
+    if(res.locals.user._id!=null)
+    {
+        var length = res.locals.user.wistlist.length;
     for (var i = 0; i < length; i++) {
         wistlist[i] = res.locals.user.wistlist[i].course;
+    }
     }
     Course.find({ _id: { "$in": wistlist } }).exec((err, course) => {
         if (err) {

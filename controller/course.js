@@ -541,6 +541,7 @@ exports.buyCourse = async (req, res) => {
 }
 
 exports.renderLearnCourse = async (req, res) => {
+    
     let { view } = req.course;
     let update = { view: view + 1 };
     let students = []
