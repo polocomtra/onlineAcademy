@@ -262,41 +262,23 @@ exports.renderAllCourses = (req, res) => {
     var myCourse = [];
     Course.find().exec((err, courses) => {
         if (err) {
-            return res.status(400).json({
-                error: errorHandler(err)
-            })
+            console.log(err)
         }
-        courseNum = courses.length
-        for (var i = 0; i < courseNum; i++) {
-            var studentlength = courses[i].students.length;
-            var studentArray = [];
-            for (var j = 0; j < studentlength; j++) {
-                studentArray[j] = courses[i].students[j].students;
+        for(var i=0;i<courses.length;i++)
+        {
+            for(var j=0;j<courses[i].students.length;j++)
+            {
+                if(courses[i].students[j].student == res.locals.user._id)
+                {
+                    myCourse.push(courses[i]);
+                }
             }
-            studentClass[i] = studentArray;
         }
-        console.log(studentClass);
-        var index = 0;
-        for (var k = 0; k < courseNum; k++) {
-            User.find({ $and: [{ _id: { "$in": courses.students.student } }, { _id: res.locals.user._id }] }).exec((err, user) => {
-
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    if (user.length > 0) {
-                        myCourse.push(courses[i]);
-                    }
-                }
-                index++;
-
-            })
-        }
-        console.log(myCourse);
+        res.render('user/learning/all-courses', {
+            courses: myCourse
+        });
     })
-    res.render('user/learning/all-courses', {
-        user: res.locals.user
-    });
+    
 }
 
 exports.renderCollection = (req, res) => {
