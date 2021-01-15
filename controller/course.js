@@ -273,15 +273,23 @@ exports.getCourseById = async (req, res) => {
     let { view } = req.course;
     let update = { view: view + 1 };
     await Course.findByIdAndUpdate({ _id: req.course._id }, update, { new: true })
-
+    var replay;
     Course.findOne({ _id: req.course._id }).populate('category').populate('teacher').populate('reviews.reviewer').select('-photo').exec((err, course) => {
         if (err) {
             console.log(err)
+        }
+        for(var i=0;i<course.students.length;i++)
+        {
+            if(course.students[i].student==req.session.user._id)
+            {
+                replay = course.students[i].replay;
+            }
         }
         res.render('course/detailCourse', {
             course: course,
             WistList: isWistList,
             MyCourse: isMyCourse,
+            replay: replay,
             coursesCategory: req.session.coursesCategory
         })
     })
@@ -527,7 +535,14 @@ exports.buyCourse = async (req, res) => {
     let content = [];
     content = req.course.content;
     students = req.course.students;
-    students.push({ student: myID, replay: content[0].chapter[0]._id })
+    if(content[0].chapter[0]!=null)
+    {
+        students.push({ student: myID, replay: content[0].chapter[0]._id })
+    }
+    else
+    {
+        students.push({ student: myID, replay: content[1].chapter[0]._id })
+    }
     console.log(students);
     const updateInfo = { students }
     await Course.findByIdAndUpdate(req.course._id, updateInfo, (err, result) => {
