@@ -5,7 +5,9 @@ const router = express.Router();
 const { renderProfile, coursesByUser, updateProfile, isAdmin, getAllCoursesByAdmin,
     getAllCategoriesByAdmin, getAllUsersByAdmin, renderDeleteUserForm, renderUpdateUserForm,
     updateUser, deleteUser, renderAddCategoryForm, addCategory, renderUpdateCategoryForm, updateCategory,
-    renderDeleteCategoryForm, deleteCategory, findCourseExist, renderDeleteCourseForm, deleteCourse } = require('../controller/user');
+    renderDeleteCategoryForm, deleteCategory, findCourseExist, renderDeleteCourseForm, deleteCourse,
+    renderAddTeacherForm,addTeacher
+ } = require('../controller/user');
 const { layoutMiddleWare } = require('../middlewares/layout');
 const { renderAllCourses } = require('../controller/user');
 const { renderCollection } = require('../controller/user');
@@ -23,12 +25,14 @@ router.get('/admin/courses', isAdmin, getAllCoursesByAdmin)
 router.get('/admin/categories', isAdmin, getAllCategoriesByAdmin)
 router.get('/admin/users', isAdmin, getAllUsersByAdmin)
 //user management (update + delete)
+router.get('/admin/addTeacher',layoutMiddleWare,renderAddTeacherForm);
+router.post('/admin/addTeacher',addTeacher)
 router.get('/admin/updateUser/:userId', renderUpdateUserForm)
 router.get('/admin/deleteUser/:userId', renderDeleteUserForm)
 router.post('/admin/updateUser/:userId', updateUser)
 router.post('/admin/deleteUser/:userId', deleteUser)
 //category management (add+update+delete)
-router.get('/admin/addCategory', renderAddCategoryForm)
+router.get('/admin/addCategory', layoutMiddleWare,renderAddCategoryForm)
 router.post('/admin/addCategory', addCategory)
 router.get('/admin/updateCategory/:categoryId', renderUpdateCategoryForm)
 router.post('/admin/updateCategory/:categoryId', updateCategory);

@@ -4,6 +4,7 @@ const Course = require("../model/Course");
 const Field = require("../model/Field");
 const User = require("../model/User");
 const _ = require('lodash');
+const cryptoJs = require('crypto-js');
 const { stubArray } = require('lodash');
 
 
@@ -42,8 +43,9 @@ exports.coursesByUser = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
     console.log(req.body);
-    const { username, email, publicinfo } = req.body;
-    const updateInfo = { username, email, about: publicinfo };
+    const { username, email, publicinfo,newPassword } = req.body;
+    let hashed_password= cryptoJs.AES.encrypt(newPassword, process.env.KEY_ENCRYPT).toString()
+    const updateInfo = { username, email,hashed_password, about: publicinfo };
     User.findByIdAndUpdate(res.locals.user._id, updateInfo, (err, result) => {
         if (err) {
             console.log(err);
@@ -177,7 +179,6 @@ exports.deleteUser = async (req, res) => {
 
 exports.renderAddCategoryForm = (req, res) => {
     res.render('admin/management/category/addCategory', {
-        fields: res.locals.fields,
         successMessage: false
     })
 }
@@ -382,3 +383,26 @@ exports.renderArchived = (req, res) => {
     });
 }
 
+exports.renderAddTeacherForm=(req,res)=>{
+    res.render('admin/management/user/addTeacher',{
+        successMessage:false
+    })
+}
+
+exports.addTeacher=(req,res)=>{
+    const {username,password,role}=req.body
+    let newEmail=username+`@email.com`;
+    const newAccount={name:username,email:newEmail,password,role}
+    const newTeacher=new User(newAccount);
+    newTeacher.save((err,result)=>{
+        if(err){
+            console.log(err);
+            return res.status(400).json({
+                error:err
+            })
+        }
+        res.render('admin/management/user/addTeacher',{
+            successMessage: 'Create new teacher account successfully'
+        })
+    })
+}
