@@ -524,8 +524,10 @@ exports.buyCourse = async (req, res) => {
     let path = req.course._id;
     let myID = req.session.user._id
     let students = []
+    let content = [];
+    content = req.course.content;
     students = req.course.students;
-    students.push({ student: myID })
+    students.push({ student: myID, replay: content[0].chapter[0]._id })
     console.log(students);
     const updateInfo = { students }
     await Course.findByIdAndUpdate(req.course._id, updateInfo, (err, result) => {
@@ -541,7 +543,6 @@ exports.buyCourse = async (req, res) => {
 }
 
 exports.renderLearnCourse = async (req, res) => {
-    
     let { view } = req.course;
     let update = { view: view + 1 };
     let students = []
@@ -550,7 +551,6 @@ exports.renderLearnCourse = async (req, res) => {
     for (var i = 0; i < length; i++) {
         students[i] = req.course.students[i].student;
     }
-    console.log(students);
     var isBought = false;
     User.find({ $and: [{ _id: { "$in": students } }, { _id: req.session.user._id }] }).exec((err, users) => {
         if (err) {
@@ -564,6 +564,29 @@ exports.renderLearnCourse = async (req, res) => {
         }
         console.log(isBought);
     })
+
+    //Update replay
+    students = {};
+    let myID = req.session.user._id;
+    students = req.course.students;
+    for(var i=0;i<students.length;i++)
+    {
+        if(students[i].student == myID)
+        {
+            students[i].replay = req.params.lessonId;
+        }
+    }
+    const updateInfo = { students }
+    await Course.findByIdAndUpdate(req.course._id, updateInfo, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: err
+            })
+        }
+    })
+    
+
     await Course.findByIdAndUpdate({ _id: req.course._id }, update, { new: true })
     Course.findOne({ _id: req.course._id }).exec((err, course) => {
         if (err) {

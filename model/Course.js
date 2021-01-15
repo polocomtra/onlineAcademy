@@ -52,6 +52,10 @@ const courseSchema = new mongoose.Schema({
                 type: ObjectId,
                 ref: 'User',
                 required: true
+            },
+            replay: {
+                type: String,
+                required: true
             }
         }
     ],
