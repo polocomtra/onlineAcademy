@@ -18,6 +18,11 @@
                     <button type="button" class="btn btn-outline-success" data-mdb-ripple-color="dark" style="font-size : 20px;">
                         <i class="fa fa-graduation-cap" aria-hidden="true"></i>  Go to Course
                     </button>
+                    <% if (isDone[index]){ %>
+                        <button style="font-size : 20px; margin-top: 10px; width: 100%; display: block;" type="button" class="btn btn-info" disabled>Finished</button>
+                    <% } else { %>
+                        <button style="font-size : 20px; margin-top: 10px; width: 100%; display: block;" type="button" class="btn btn-success" disabled>In Progress</button>
+                    <% } %>
                 </div>
             </div>
             <% index++ %>
