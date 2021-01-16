@@ -674,5 +674,13 @@ exports.renderPreview = async (req, res) => {
 
 
 exports.addComment = async (req, res) => {
-    console.log(req.body.name);
+    let path = req.course._id;
+    let comment = req.body.comment;
+    let star = Number(req.body.star);
+    let reviews = req.course.reviews;
+    reviews.push({reviewer: res.locals.user._id, rated: star, body: comment});
+    console.log(reviews);
+    let update = {reviews};
+    await Course.findByIdAndUpdate({ _id: req.course._id }, update, { new: true });
+    res.redirect('/course/' + path);
 }

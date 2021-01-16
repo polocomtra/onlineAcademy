@@ -35,7 +35,7 @@ router.get('/:courseId/preview/:lessonId', renderPreview)
 router.get('/:courseId/addtoWistList', addWistlist)
 router.get('/:courseId/removefromWistList', removeWistlist)
 router.get('/:courseId/buyCourse', buyCourse)
-router.post('/:courseID',urlencodedParser, addComment)
+router.post('/:courseId',urlencodedParser, addComment)
 
 router.param('courseId', courseById)
 router.param('lessonId', lessonById)
