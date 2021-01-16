@@ -7,7 +7,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const { createCourse, courseById, getCourseById, getCoursePhoto, handleSearch, renderCreateCourseForm, renderCourseUpdateForm, updateCourse,
     lessonById, addWistlist, removeWistlist, buyCourse, renderLearnCourse, calculateSearchPagingInfo, latestCoursesForSearch, 
-    getCourseCategory, CoursesCategory, addComment, AliasById } = require('../controller/course');
+    getCourseCategory, CoursesCategory, addComment, AliasById, renderPreview } = require('../controller/course');
 const { isPro } = require('../controller/user');
 const { layoutMiddleWare } = require('../middlewares/layout');
 
@@ -31,6 +31,7 @@ router.get('/:courseId', getCourseCategory, CoursesCategory, getCourseById)
 router.get('/photo/:courseId', getCoursePhoto)
 router.post('/search', calculateSearchPagingInfo, latestCoursesForSearch, handleSearch)
 router.get('/:courseId/learn/:lessonId', renderLearnCourse)
+router.get('/:courseId/preview/:lessonId', renderPreview)
 router.get('/:courseId/addtoWistList', addWistlist)
 router.get('/:courseId/removefromWistList', removeWistlist)
 router.get('/:courseId/buyCourse', buyCourse)

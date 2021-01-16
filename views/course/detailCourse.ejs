@@ -79,6 +79,8 @@
             <h2>Content</h2>
             <div class="comment-widgets" id="accordionExample">
                 <% var count=0 %>
+                <% var chapterCount = 0%>
+                <% var trialCount = 0 %>
                 <% course.content.forEach(function(contents) { %>
                   <% count++ %>
                   <div class="comment-widgets">
@@ -92,15 +94,20 @@
                     
                     <div id="collapse<%=count%>" class="collapse" aria-labelledby="headin<%=count%>" data-parent="#accordionExample">
                       <div class="card-body">
-                        <% var lessonCount = 0 %>
                         <% contents.chapter.forEach(function(chapter) { %>
-                        <% if(lessonCount===0){ %>
-                            <a href="">
+                        <% var lessonCount = 0 %>
+                        <% trialCount ++ %>
+                        <% if(trialCount < 3) {%>
+                            <a href="<%=course._id%>/preview/<%= chapter._id %>">
                                 <i class="fa fa-play-circle" aria-hidden="true"></i>   <%=chapter.lesson%>
                             </a> 
-                        <%} else {%>
+                        <% } else { %>
+                            
                             <i class="fa fa-play-circle" aria-hidden="true"></i>   <%=chapter.lesson%>
-                        <%}%>
+                            
+                        <% } %>
+                        
+                        
                         <br></br>
                         <% lessonCount++ %>
                         <% }) %>

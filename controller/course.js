@@ -615,6 +615,42 @@ exports.renderLearnCourse = async (req, res) => {
     })
 }
 
+//Xem truoc
+
+exports.renderPreview = async (req, res) => {
+    var isPreview = false;
+    Course.findOne({ _id: req.course._id }).exec((err, course) => {
+        if (err) {
+            console.log(err)
+        }
+        let content = req.course.content;
+        
+        var count = 0;
+        for(var i=0;i<content.length;i++)
+        {
+            for(var j=0; j<content[i].chapter.length;j++)
+            {
+                
+                if(content[i].chapter[j]._id == req.params.lessonId)
+                {
+                    if(count < 2)
+                    {
+                        isPreview = true;
+                    }
+                    
+                }
+                count++;
+            }
+            
+        }
+        res.render('course/preview', {
+            course: course,
+            lessonID: req.params.lessonId,
+            isPreview: isPreview
+        })
+    })
+}
+
 
 
 //Bình luận
