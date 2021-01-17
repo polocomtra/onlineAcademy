@@ -79,6 +79,8 @@
             <h2>Content</h2>
             <div class="comment-widgets" id="accordionExample">
                 <% var count=0 %>
+                <% var chapterCount = 0%>
+                <% var trialCount = 0 %>
                 <% course.content.forEach(function(contents) { %>
                   <% count++ %>
                   <div class="comment-widgets">
@@ -92,15 +94,20 @@
                     
                     <div id="collapse<%=count%>" class="collapse" aria-labelledby="headin<%=count%>" data-parent="#accordionExample">
                       <div class="card-body">
-                        <% var lessonCount = 0 %>
                         <% contents.chapter.forEach(function(chapter) { %>
-                        <% if(lessonCount===0){ %>
-                            <a href="">
+                        <% var lessonCount = 0 %>
+                        <% trialCount ++ %>
+                        <% if(trialCount < 3) {%>
+                            <a href="<%=course._id%>/preview/<%= chapter._id %>">
                                 <i class="fa fa-play-circle" aria-hidden="true"></i>   <%=chapter.lesson%>
                             </a> 
-                        <%} else {%>
+                        <% } else { %>
+                            
                             <i class="fa fa-play-circle" aria-hidden="true"></i>   <%=chapter.lesson%>
-                        <%}%>
+                            
+                        <% } %>
+                        
+                        
                         <br></br>
                         <% lessonCount++ %>
                         <% }) %>
@@ -292,14 +299,19 @@
                             
                             
                             <% if (MyCourse == true) { %>
-                                <form method="POST" enctype="multipart/form-data">
+                                <form method="POST">
                                     <div class="bg-light p-2 comment-widgets ">
-                                        <div class="rating form-group"> 
-                                            <input class="form-control here"  type="radio" id="rating" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                        <div class="container d-flex justify-content-center mt-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="stars">
+                                                       <input class="star star-5" id="star-5" type="radio" name="star" value="5"/> <label class="star star-5" for="star-5"></label> <input class="star star-4" id="star-4" type="radio" name="star" value="4"/> <label class="star star-4" for="star-4"></label> <input class="star star-3" id="star-3" type="radio" name="star" value="3"/> <label class="star star-3" for="star-3"></label> <input class="star star-2" id="star-2" type="radio" name="star" value="2"/> <label class="star star-2" for="star-2"></label> <input class="star star-1" id="star-1" type="radio" name="star" value="1"/> <label class="star star-1" for="star-1"></label> </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="d-flex flex-row align-items-start form-group"><img class="rounded-circle" src="https://clipartart.com/images/login-background-images-clipart.jpg" width="40">
-                                            <input id="username" name="name" class="form-control here" required="required"
-                                            type="text">
+                                            <input id="comment" name="comment" class="form-control here" required="required" type="text">
                                         </div>
                                         <div class="mt-2 text-right">
                                             <button class="btn btn-primary btn-sm shadow-none comment-widgets" type="submit">

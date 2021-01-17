@@ -537,11 +537,11 @@ exports.buyCourse = async (req, res) => {
     students = req.course.students;
     if(content[0].chapter[0]!=null)
     {
-        students.push({ student: myID, replay: content[0].chapter[0]._id })
+        students.push({ student: myID, replay: content[0].chapter[0]._id, isDone: false });
     }
     else
     {
-        students.push({ student: myID, replay: content[1].chapter[0]._id })
+        students.push({ student: myID, replay: content[1].chapter[0]._id, isDone: false });
     }
     console.log(students);
     const updateInfo = { students }
@@ -560,7 +560,7 @@ exports.buyCourse = async (req, res) => {
 exports.renderLearnCourse = async (req, res) => {
     let { view } = req.course;
     let update = { view: view + 1 };
-    let students = []
+    let students = [];
     length = req.course.students.length;
     console.log(length);
     for (var i = 0; i < length; i++) {
@@ -579,7 +579,19 @@ exports.renderLearnCourse = async (req, res) => {
         }
         console.log(isBought);
     })
-
+    let isDone = false;
+    //Kiem tra lesson cuoi
+    let lessonID = req.params.lessonId
+    let content = req.course.content;
+    let contentLength = content.length;
+    let chapter = content[contentLength-1].chapter;
+    let chapterLength = chapter.length;
+    console.log(req.params.lessonId);
+    console.log(content[contentLength-1].chapter[chapterLength-1]._id);
+    if(lessonID == content[contentLength-1].chapter[chapterLength-1]._id)
+    {
+        isDone = true;
+    }
     //Update replay
     students = {};
     let myID = req.session.user._id;
@@ -589,6 +601,11 @@ exports.renderLearnCourse = async (req, res) => {
         if(students[i].student == myID)
         {
             students[i].replay = req.params.lessonId;
+            if(isDone==true)
+            {
+                students[i].isDone = true;
+                
+            }
         }
     }
     const updateInfo = { students }
@@ -615,11 +632,55 @@ exports.renderLearnCourse = async (req, res) => {
     })
 }
 
+//Xem truoc
+
+exports.renderPreview = async (req, res) => {
+    var isPreview = false;
+    Course.findOne({ _id: req.course._id }).exec((err, course) => {
+        if (err) {
+            console.log(err)
+        }
+        let content = req.course.content;
+        
+        var count = 0;
+        for(var i=0;i<content.length;i++)
+        {
+            for(var j=0; j<content[i].chapter.length;j++)
+            {
+                
+                if(content[i].chapter[j]._id == req.params.lessonId)
+                {
+                    if(count < 2)
+                    {
+                        isPreview = true;
+                    }
+                    
+                }
+                count++;
+            }
+            
+        }
+        res.render('course/preview', {
+            course: course,
+            lessonID: req.params.lessonId,
+            isPreview: isPreview
+        })
+    })
+}
+
 
 
 //Bình luận
 
 
 exports.addComment = async (req, res) => {
-    console.log(req.body.name);
+    let path = req.course._id;
+    let comment = req.body.comment;
+    let star = Number(req.body.star);
+    let reviews = req.course.reviews;
+    reviews.push({reviewer: res.locals.user._id, rated: star, body: comment});
+    console.log(reviews);
+    let update = {reviews};
+    await Course.findByIdAndUpdate({ _id: req.course._id }, update, { new: true });
+    res.redirect('/course/' + path);
 }

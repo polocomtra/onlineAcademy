@@ -260,6 +260,7 @@ exports.renderDeleteCategoryForm = async (req, res) => {
 exports.renderAllCourses = (req, res) => {
     var myCourse = [];
     var replay = [];
+    var isDone = [];
     Course.find().exec((err, courses) => {
         if (err) {
             console.log(err)
@@ -272,12 +273,14 @@ exports.renderAllCourses = (req, res) => {
                 {
                     myCourse.push(courses[i]);
                     replay.push(courses[i].students[j].replay);
+                    isDone.push(courses[i].students[j].isDone)
                 }
             }
         }
         res.render('user/learning/all-courses', {
             courses: myCourse,
-            replay: replay
+            replay: replay,
+            isDone: isDone
         });
     })
     

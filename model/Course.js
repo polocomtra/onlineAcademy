@@ -56,7 +56,11 @@ const courseSchema = new mongoose.Schema({
             replay: {
                 type: String,
                 required: true
-            }
+            },
+            isDone: {
+                type: Boolean,
+                required: true
+            },
         }
     ],
     description: {
